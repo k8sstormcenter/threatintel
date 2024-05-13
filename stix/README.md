@@ -1,5 +1,5 @@
 # STIX 2.1 Modeling for Tetragon Logs and Attack Tree
-You can visualize and explore the STIX models mentioned in this document by drag-and-dropping the JSON files located in `/code` [here](https://traut.github.io/stixview/dist/demos/viewer.html). 
+You can visualize and explore the STIX models mentioned in this document by drag-and-dropping the JSON files located in `/code` [in the STIX viewer](https://traut.github.io/stixview/dist/demos/viewer.html). 
 
 ## Tetragon Log
 To model Tetragon logs, we utilize the STIX [Observed Data Object](https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_p49j1fwoxldc). This object references a list of STIX Cyber-observable Objects (SCOs) such as files, processes, and network addresses, capturing observed events.
