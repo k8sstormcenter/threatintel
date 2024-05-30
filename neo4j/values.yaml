@@ -13,3 +13,10 @@ volumes:
     defaultStorageClass:
       requests:
         storage: 2Gi
+
+# Prevent creation of LoadBalancer service
+services:
+  neo4j:
+    enabled: false
+  internals:
+    enabled: true
