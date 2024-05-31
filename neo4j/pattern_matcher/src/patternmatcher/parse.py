@@ -1,13 +1,19 @@
 import uuid
 import json
 from datetime import datetime
-from src.constants import TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE, OBSERVABLE_STIX_BUNDLE_EXAMPLE
+from patternmatcher.constants import (
+    TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE,
+    OBSERVABLE_STIX_BUNDLE_EXAMPLE,
+)
+
 
 def generate_stix_id(type):
     return f"{type}--{uuid.uuid4()}"
 
+
 def _get_current_time_iso_format():
-    return datetime.utcnow().isoformat(timespec='microseconds') + 'Z'
+    return datetime.utcnow().isoformat(timespec="microseconds") + "Z"
+
 
 def sanitize_bundle(bundle):
     """
@@ -17,8 +23,12 @@ def sanitize_bundle(bundle):
         return bundle
     return {k: sanitize_bundle(v) for k, v in bundle.items() if v is not None}
 
+
 def get_observable_id(bundle):
-    return next((obj["id"] for obj in bundle["objects"] if obj["type"] == "observed-data"), None)
+    return next(
+        (obj["id"] for obj in bundle["objects"] if obj["type"] == "observed-data"), None
+    )
+
 
 def transform_process_exec_to_stix(log):
     parent = log.get("parent", {})
@@ -33,18 +43,14 @@ def transform_process_exec_to_stix(log):
     stix_objects = []
 
     if parent_image_name:
-        stix_objects.append({
-            "type": "file",
-            "id": parent_file_id,
-            "name": parent_image_name
-        })
+        stix_objects.append(
+            {"type": "file", "id": parent_file_id, "name": parent_image_name}
+        )
 
     if process_image_name:
-        stix_objects.append({
-            "type": "file",
-            "id": process_file_id,
-            "name": process_image_name
-        })
+        stix_objects.append(
+            {"type": "file", "id": process_file_id, "name": process_image_name}
+        )
 
     parent_process_object = {
         "type": "process",
@@ -56,8 +62,8 @@ def transform_process_exec_to_stix(log):
         "image_ref": parent_file_id,
         "extensions": {
             "flags": parent.get("flags", ""),
-            "parent_exec_id": parent.get("parent_exec_id", "")
-        }
+            "parent_exec_id": parent.get("parent_exec_id", ""),
+        },
     }
     stix_objects.append(parent_process_object)
 
@@ -75,8 +81,8 @@ def transform_process_exec_to_stix(log):
             "docker": process.get("docker", ""),
             "container_id": process.get("pod", {}).get("container", {}).get("id", ""),
             "pod_name": process.get("pod", {}).get("name", ""),
-            "namespace": process.get("pod", {}).get("namespace", "")
-        }
+            "namespace": process.get("pod", {}).get("namespace", ""),
+        },
     }
     stix_objects.append(process_object)
 
@@ -90,11 +96,7 @@ def transform_process_exec_to_stix(log):
         "last_observed": current_time,
         "number_observed": 1,
         "object_refs": [process_object["id"], parent_process_object["id"]],
-        "extensions": {
-            "node_info": {
-                "node_name": log.get("node_name")
-            }
-        }
+        "extensions": {"node_info": {"node_name": log.get("node_name")}},
     }
     if parent_file_id:
         observed_data_object["object_refs"].append(parent_file_id)
@@ -105,11 +107,19 @@ def transform_process_exec_to_stix(log):
 
     return stix_objects
 
+
 def transform_process_kprobe_to_stix(log):
     parent = log.get("parent", {})
     process = log.get("process", {})
-    file_arg = next((arg.get("file_arg", {}).get("path") for arg in log.get("args", []) if "file_arg" in arg), None)
-    
+    file_arg = next(
+        (
+            arg.get("file_arg", {}).get("path")
+            for arg in log.get("args", [])
+            if "file_arg" in arg
+        ),
+        None,
+    )
+
     parent_image_name = parent.get("binary", "").split("/")[-1]
     process_image_name = process.get("binary", "").split("/")[-1]
 
@@ -120,25 +130,17 @@ def transform_process_kprobe_to_stix(log):
     stix_objects = []
 
     if parent_image_name:
-        stix_objects.append({
-            "type": "file",
-            "id": parent_file_id,
-            "name": parent_image_name
-        })
+        stix_objects.append(
+            {"type": "file", "id": parent_file_id, "name": parent_image_name}
+        )
 
     if process_image_name:
-        stix_objects.append({
-            "type": "file",
-            "id": process_file_id,
-            "name": process_image_name
-        })
+        stix_objects.append(
+            {"type": "file", "id": process_file_id, "name": process_image_name}
+        )
 
     if file_arg:
-        stix_objects.append({
-            "type": "file",
-            "id": file_arg_id,
-            "name": file_arg
-        })
+        stix_objects.append({"type": "file", "id": file_arg_id, "name": file_arg})
 
     parent_process_object = {
         "type": "process",
@@ -148,9 +150,7 @@ def transform_process_kprobe_to_stix(log):
         "cwd": parent.get("cwd"),
         "created_time": parent.get("start_time", _get_current_time_iso_format()),
         "image_ref": parent_file_id,
-        "extensions": {
-            "flags": parent.get("flags", "")
-        }
+        "extensions": {"flags": parent.get("flags", "")},
     }
     stix_objects.append(parent_process_object)
 
@@ -168,11 +168,11 @@ def transform_process_kprobe_to_stix(log):
             "docker": process.get("docker", ""),
             "container_id": process.get("pod", {}).get("container", {}).get("id", ""),
             "pod_name": process.get("pod", {}).get("name", ""),
-            "namespace": process.get("pod", {}).get("namespace", "")
-        }
+            "namespace": process.get("pod", {}).get("namespace", ""),
+        },
     }
     stix_objects.append(process_object)
-    
+
     current_time = log.get("time", _get_current_time_iso_format())
     observed_data_object = {
         "type": "observed-data",
@@ -183,11 +183,7 @@ def transform_process_kprobe_to_stix(log):
         "last_observed": current_time,
         "number_observed": 1,
         "object_refs": [process_object["id"], parent_process_object["id"]],
-        "extensions": {
-            "node_info": {
-                "node_name": log.get("node_name")
-            }
-        }
+        "extensions": {"node_info": {"node_name": log.get("node_name")}},
     }
 
     if parent_file_id:
@@ -201,12 +197,13 @@ def transform_process_kprobe_to_stix(log):
 
     return stix_objects
 
+
 def transform_tetragon_to_stix(tetragon_log):
     stix_bundle = {
         "type": "bundle",
         "id": generate_stix_id("bundle"),
         "spec_version": "2.1",
-        "objects": []
+        "objects": [],
     }
 
     if "process_exec" in tetragon_log:
@@ -217,7 +214,6 @@ def transform_tetragon_to_stix(tetragon_log):
         stix_bundle["objects"].extend(stix_objects)
 
     return stix_bundle
-
 
 
 if __name__ == "__main__":

@@ -6,11 +6,16 @@ from neo4j import AsyncGraphDatabase, AsyncDriver
 from aiokafka import AIOKafkaConsumer
 import logging as log
 
-from src.parse import transform_tetragon_to_stix, get_observable_id, sanitize_bundle
-from src.match import matches
-from src.load import load_to_neo4j
+from patternmatcher.parse import (
+    transform_tetragon_to_stix,
+    get_observable_id,
+    sanitize_bundle,
+)
+from patternmatcher.match import matches
+from patternmatcher.load import load_to_neo4j
 
 log.basicConfig(level=log.INFO)
+
 
 class StixPatterMatcher:
     """
@@ -24,14 +29,16 @@ class StixPatterMatcher:
 
     async def run(self, kafka_uri: str, kafka_topic: str):
         """Run the matcher for given kafka topic."""
-        log.info(f"Running STIX pattern matcher for topic {kafka_topic} on {kafka_uri}.")
+        log.info(
+            f"Running STIX pattern matcher for topic {kafka_topic} on {kafka_uri}."
+        )
         await asyncio.gather(
             self._sheduled_task(self.load_indicators, 10),
-            self.consume_kafka_topics(kafka_uri, kafka_topic)
+            self.consume_kafka_topics(kafka_uri, kafka_topic),
         )
 
-    async def _sheduled_task(self, task, interval: int=None):
-        """Shedule an async task to run every interval seconds."""
+    async def _sheduled_task(self, task, interval: int = None):
+        """Schedule an async task to run every interval seconds."""
         while True:
             await task()
             await asyncio.sleep(interval)
@@ -45,14 +52,15 @@ class StixPatterMatcher:
                 self.indicators.clear()
                 result = await session.run(query)
                 async for record in result:
-                    data = record.data()['i']
-                    self.indicators[data['id']] = data['pattern']
-        
+                    data = record.data()["i"]
+                    self.indicators[data["id"]] = data["pattern"]
+
         log.info(f"Currently watching {len(self.indicators)} indicators.")
-        
 
     async def consume_kafka_topics(self, server: str, topic: str):
-        consumer = AIOKafkaConsumer(topic, bootstrap_servers=server, auto_offset_reset="latest")
+        consumer = AIOKafkaConsumer(
+            topic, bootstrap_servers=server, auto_offset_reset="latest"
+        )
         await consumer.start()
         async for message in consumer:
             log.debug(f"Received new consumer msg.")
@@ -73,21 +81,36 @@ class StixPatterMatcher:
 
                     # load observed data to neo4j
                     async with self.neo4j.session() as session:
-                        await session.execute_write(load_to_neo4j, sanitize_bundle(bundle))
+                        await session.execute_write(
+                            load_to_neo4j, sanitize_bundle(bundle)
+                        )
 
                     # Add relation to indicator
                     query = """MATCH (i:Indicator {id: $id}), (o:ObservedData {id: $obs_id})
                                 MERGE (i)-[:MATCHED]->(o)"""
-                    
+
                     async with self.neo4j.session() as session:
-                        await session.run(query, id=id, obs_id=get_observable_id(bundle))
+                        await session.run(
+                            query, id=id, obs_id=get_observable_id(bundle)
+                        )
+
 
 @click.command()
-@click.option('--neo_uri', '-n', default='bolt://neo4j-poc.neo4j.svc.cluster.local:7687', help='Neo4j URI')
-@click.option('--neo_user', '-u', default='neo4j', help='Username for Neo4j')
-@click.option('--neo_pass', '-p', default='password', help='Password for Neo4j')
-@click.option('--kafka_uri', '-k', default='redpanda-src.redpanda.svc.cluster.local:9093', help='Kafka/Redpanda URI')
-@click.option('--kafka_topic', '-t', default='signal', help='Kafka/Redpanda topic')
+@click.option(
+    "--neo_uri",
+    "-n",
+    default="bolt://neo4j-poc.neo4j.svc.cluster.local:7687",
+    help="Neo4j URI",
+)
+@click.option("--neo_user", "-u", default="neo4j", help="Username for Neo4j")
+@click.option("--neo_pass", "-p", default="password", help="Password for Neo4j")
+@click.option(
+    "--kafka_uri",
+    "-k",
+    default="redpanda-src.redpanda.svc.cluster.local:9093",
+    help="Kafka/Redpanda URI",
+)
+@click.option("--kafka_topic", "-t", default="signal", help="Kafka/Redpanda topic")
 def main(neo_uri, neo_user, neo_pass, kafka_uri, kafka_topic):
     """Run the STIX indicator pattern matcher."""
 
@@ -95,9 +118,8 @@ def main(neo_uri, neo_user, neo_pass, kafka_uri, kafka_topic):
     neo4j_driver = AsyncGraphDatabase.driver(uri=neo_uri, auth=(neo_user, neo_pass))
 
     log.info(f"Neo4j driver connected.")
-    asyncio.run(
-        StixPatterMatcher(neo4j_driver).run(kafka_uri, kafka_topic)
-    )
+    asyncio.run(StixPatterMatcher(neo4j_driver).run(kafka_uri, kafka_topic))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
