@@ -7,7 +7,7 @@ async def load_to_neo4j(tx, data):
     for obj in data['objects']:
         obj_type = obj['type']
         obj_id = obj['id']
-        
+
         if obj_type == "process":
             await tx.run(
                 "MERGE (p:Process {id: $id, pid: $pid, command_line: $command_line, cwd: $cwd, created_time: $created_time}) "
@@ -22,13 +22,13 @@ async def load_to_neo4j(tx, data):
                     "MERGE (parent)-[:SPAWNED]->(p) ",
                     id=obj_id, parent_id=obj['parent_ref']
                 )
-                
+
         elif obj_type == "file":
             await tx.run(
                 "MERGE (f:File {id: $id, name: $name}) ",
                 id=obj_id, name=obj['name']
             )
-            
+
         elif obj_type == "observed-data":
             await tx.run(
                 "MERGE (o:ObservedData {id: $id, created: $created, modified: $modified, first_observed: $first_observed, last_observed: $last_observed, number_observed: $number_observed}) ",
@@ -40,25 +40,25 @@ async def load_to_neo4j(tx, data):
                     "MERGE (o)-[:OBSERVED]->(ref) ",
                     obs_id=obj_id, ref_id=ref
                 )
-                
+
         elif obj_type == "attack-pattern":
             await tx.run(
                 "MERGE (a:AttackPattern {id: $id, name: $name, description: $description}) ",
                 id=obj_id, name=obj['name'], description=obj['description']
             )
-            
+
         elif obj_type == "intrusion-set":
             await tx.run(
                 "MERGE (i:IntrusionSet {id: $id, name: $name, description: $description, goals: $goals}) ",
                 id=obj_id, name=obj['name'], description=obj['description'], goals=obj['goals']
             )
-            
+
         elif obj_type == "indicator":
             await tx.run(
                 "MERGE (i:Indicator {id: $id, name: $name, description: $description, pattern: $pattern, pattern_type: $pattern_type, valid_from: $valid_from}) ",
                 id=obj_id, name=obj['name'], description=obj['description'], pattern=obj['pattern'], pattern_type=obj['pattern_type'], valid_from=obj['valid_from']
             )
-            
+
         elif obj_type == "relationship":
             rel_type = obj['relationship_type']
             source_ref = obj['source_ref']
@@ -85,7 +85,12 @@ def main(file_path, uri, username, password):
 
     with open(file_path, 'r') as file:
         data = json.load(file)
-    asyncio.run(run(uri, username, password, data))
+
+    if type(data) == dict:
+        asyncio.run(run(uri, username, password, data))
+    else:
+        for bundle in data:
+            asyncio.run(run(uri, username, password, bundle))
 
 
 if __name__ == "__main__":

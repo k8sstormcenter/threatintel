@@ -1,0 +1,75 @@
+{
+    "node_name": "k8s-agent-001",
+    "process_kprobe": {
+        "action": "KPROBE_ACTION_POST",
+        "policy_name": "enumerate-service-account",
+        "function_name": "security_file_permission",
+        "args": [
+            {
+                "file_arg": {
+                    "path": "/run/secrets/kubernetes.io/serviceaccount/..2024_05_30_15_39_47.3115319183/token"
+                }
+            },
+            {
+                "int_arg": 4
+            }
+        ],
+        "parent": {
+            "arguments": "-- rancher --http-listen-port=80 --https-listen-port=443 --audit-log-path=/var/log/auditlog/rancher-api-audit.log --audit-level=1 --audit-log-maxage=1 --audit-log-maxbackup=1 --audit-log-maxsize=100 --no-cacerts --http-listen-port=80 --https-listen-port=443 --add-local=true",
+            "binary": "/usr/bin/tini",
+            "cwd": "/var/lib/rancher",
+            "docker": "9a3331f9d3ba7a82582f8cc145e3ac9",
+            "flags": "procFS auid",
+            "pod": {
+                "container": {
+                    "id": "containerd://9a3331f9d3ba7a82582f8cc145e3ac9546a549f16a76177693354007bd12f1f5",
+                    "image": {
+                        "id": "docker.io/rancher/rancher@sha256:0c8932d64c47c6e74f914cc02ce6cf606da188f6246dd34f92508fc594c63e38",
+                        "name": "docker.io/rancher/rancher:v2.8.3"
+                    },
+                    "name": "rancher"
+                },
+                "name": "rancher-55966c8d68-fh7jb",
+                "namespace": "cattle-system",
+                "pod_labels": {
+                    "app": "rancher",
+                    "pod-template-hash": "55966c8d68",
+                    "release": "rancher"
+                },
+                "workload": "rancher",
+                "workload_kind": "Deployment"
+            }
+        },
+        "process": {
+            "arguments": "--http-listen-port=80 --https-listen-port=443 --audit-log-path=/var/log/auditlog/rancher-api-audit.log --audit-level=1 --audit-log-maxage=1 --audit-log-maxbackup=1 --audit-log-maxsize=100 --no-cacerts --http-listen-port=80 --https-listen-port=443 --add-local=true",
+            "binary": "/usr/bin/rancher",
+            "cwd": "/var/lib/rancher",
+            "docker": "9a3331f9d3ba7a82582f8cc145e3ac9",
+            "flags": "procFS auid",
+            "pod": {
+                "container": {
+                    "id": "containerd://9a3331f9d3ba7a82582f8cc145e3ac9546a549f16a76177693354007bd12f1f5",
+                    "image": {
+                        "id": "docker.io/rancher/rancher@sha256:0c8932d64c47c6e74f914cc02ce6cf606da188f6246dd34f92508fc594c63e38",
+                        "name": "docker.io/rancher/rancher:v2.8.3"
+                    },
+                    "name": "rancher"
+                },
+                "name": "rancher-55966c8d68-fh7jb",
+                "namespace": "cattle-system",
+                "pod_labels": {
+                    "app": "rancher",
+                    "pod-template-hash": "55966c8d68",
+                    "release": "rancher"
+                },
+                "workload": "rancher",
+                "workload_kind": "Deployment"
+            },
+            "refcnt": 1
+        },
+        "return": {
+            "int_arg": 0
+        }
+    }
+}
+

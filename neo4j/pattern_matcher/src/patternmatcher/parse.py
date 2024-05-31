@@ -1,6 +1,8 @@
 import uuid
 import json
 from datetime import datetime
+
+import click
 from patternmatcher.constants import (
     TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE,
     OBSERVABLE_STIX_BUNDLE_EXAMPLE,
@@ -216,9 +218,22 @@ def transform_tetragon_to_stix(tetragon_log):
     return stix_bundle
 
 
-if __name__ == "__main__":
-    bundle = transform_tetragon_to_stix(TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE)
-    print(json.dumps(bundle, indent=2))
+@click.command()
+@click.argument('file_path', type=click.Path(exists=True))
+def main(file_path: str):
+    """Parse a tetragon log in json format from a file and print its
+    STIX representation in json format to stdout"""
+    with open(file_path, "r") as file:
+        tetragon_logs = json.load(file)
+    if type(tetragon_logs) == dict:
+        bundle = transform_tetragon_to_stix(tetragon_logs)
+        print(bundle)
+    else:
+        bundles = []
+        for tetragon_log in tetragon_logs:
+            bundle = transform_tetragon_to_stix(tetragon_log)
+            bundles.append(bundle)
+        print(json.dumps(bundles, indent=2))
 
-    id = get_observable_id(OBSERVABLE_STIX_BUNDLE_EXAMPLE)
-    print(id)
+if __name__ == "__main__":
+    main()
