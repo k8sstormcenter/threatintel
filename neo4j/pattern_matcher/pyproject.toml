@@ -15,6 +15,7 @@ neo4j = "^5.20.0"
 aiokafka = {extras = ["snappy"], version = "^0.10.0"}
 stix2-matcher = "3.0.0"
 stix2-patterns = "2.0.0"
+packaging = "*"  # required by aiokafka
 
 
 [build-system]
