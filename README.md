@@ -1,6 +1,8 @@
 # K8sStormCenter Threatintel
 Collect tetragon logs from a honeycluster and transform them to STIX to load them into Neo4J.
 
+![Attack Tree](./stix/figures/stix-attack-tree.jpg)
+
 ## Structure
 In the neo4j directory, the code to connect to a Kafka stream of Tetragon logs, convert that stream to STIX format and write the transformed objects to Neo4J is contained.
 
