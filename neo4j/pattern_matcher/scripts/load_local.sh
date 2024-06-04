@@ -12,10 +12,8 @@ PREPROCESSED="tmp/pre.json"
 install -D /dev/null "$STIX_PATH"
 install -D /dev/null "$PREPROCESSED"
 
-# make json valid
-sed -z 's#}\n{#},\n{#g' "$TETRAGON_LOG" > "$PREPROCESSED"
-sed -i '1s#^#[#' "$PREPROCESSED"
-echo -n "]" >> "$PREPROCESSED"
+# extract only value
+jq "[.[].value.payload]" < "$TETRAGON_LOG" > "$PREPROCESSED"
 
 # map tetragon log to stix
 python -m patternmatcher.parse "$PREPROCESSED" > "$STIX_PATH"
