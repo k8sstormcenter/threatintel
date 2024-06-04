@@ -13,8 +13,7 @@ Deploy Neo4j:
 ```bash
 helm repo add neo4j https://helm.neo4j.com/neo4j
 helm repo update
-kubectl create namespace neo4j
-helm install neo4j-poc neo4j/neo4j --namespace neo4j -f values.yaml
+helm install --create-namespace neo4j-poc neo4j/neo4j --namespace neo4j -f values.yaml
 ```
 
 Set up port forwarding:
