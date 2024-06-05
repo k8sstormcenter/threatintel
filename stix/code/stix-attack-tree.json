@@ -1,0 +1,165 @@
+{
+  "type": "bundle",
+  "id": "bundle--3b3d4e1b-4e4d-4e7c-834d-437eab41a5d3",
+  "spec_version": "2.1",
+  "objects": [
+    {
+      "type": "intrusion-set",
+      "id": "intrusion-set--00112233-4455-6677-8899-aabbccddeeff",
+      "name": "Kubernetes HostPath Volume Exploitation",
+      "description": "A sequence of attack steps aimed at exploiting misconfigurations in Kubernetes RBAC and HostPath volume settings to extract sensitive data from the cluster nodes.",
+      "goals": ["Access to underlying nodes filesystem", "Extraction of sensitive data from node"]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--abcd1234-efgh-5678-ijkl-910mnopqrst",
+      "name": "Initial SSH Access and Misconfigured RBAC",
+      "description": "An attacker gains initial access to a Kubernetes pod through SSH, exploiting misconfigured Role-Based Access Control (RBAC) settings to obtain permissions that allow the creation of cluster resources."
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--5678ijkl-9101-mnop-qrst-uvwxyzaabbcc",
+      "name": "Creation of HostPath Persistent Volume",
+      "description": "An attacker creates a HostPath Persistent Volume (PV) in Kubernetes to gain access to the underlying host filesystem, potentially exposing sensitive host data."
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--9101mnop-qrst-uvwx-yzaa-bbccddeeffgg",
+      "name": "Pod Deployment with HostPath Persistent Volume Claim",
+      "description": "An attacker deploys a pod with a Persistent Volume Claim (PVC) that mounts a writable HostPath volume to a critical directory such as /var/log, allowing access to the nodes log files."
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--aabbccdd-eeff-1122-3344-556677889900",
+      "name": "Symlink of sensitive files in /var/log",
+      "description": "An attacker symlinks senstive node files containing ssh-keys, passwords, etc.. in /var/log in order to access them."
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--bbccddeeff-1122-3344-5566-778899001122",
+      "name": "Extraction of Sensitive Data Using Kubectl Logs",
+      "description": "An attacker uses the 'kubectl logs' command on a compromised pod that has its log symlinked to senstive node file, enabling the extraction of its content."
+    },
+
+
+    {
+      "type": "indicator",
+      "id": "indicator--abcd1111-2222-3333-4444-555566667777",
+      "name": "Unusual SSH Login Activity",
+      "description": "Detecting unexpected or unusual SSH login activity to Kubernetes pods.",
+      "pattern": "[network-traffic:protocols[*] = 'ssh' AND network-traffic:dst_port = 22 AND user-account:user_id NOT IN ('expected_user_list')]",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00Z"
+    },    
+    {
+      "type": "indicator",
+      "id": "indicator--ijkl2222-3333-4444-5555-666677778888",
+      "name": "HostPath PV Creation",
+      "description": "Monitoring for the creation of HostPath Persistent Volumes in Kubernetes.",
+      "pattern": "[kubernetes-persistent-volume:spec.hostPath.path EXISTS]",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00Z"
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--mnop3333-4444-5555-6666-777788889999",
+      "name": "Pod Deployment with HostPath PVC",
+      "description": "Detecting pods deployed with HostPath Persistent Volume Claims to critical directories.",
+      "pattern": "[kubernetes-pod:spec.volumes[*].persistentVolumeClaim.claimName EXISTS AND kubernetes-pod:spec.volumes[*].hostPath.path = '/var/log']",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00Z"
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ccdd4444-5555-6666-7777-88889999aaaa",
+      "name": "Unusual Symlinks in /var/log",
+      "description": "Detection of symlinks to sensitive files within /var/log.",
+      "pattern": "[file:path = '/var/log' AND file:extensions.symlink.path MATCHES '.*(ssh|password).*']",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00Z"
+    },
+    {
+      "type": "indicator",
+      "id": "indicator--ddeeff55-6666-7777-8888-9999aaaabbbb",
+      "name": "Kubectl Logs Command Execution",
+      "description": "Monitoring the execution of 'kubectl logs' command, especially targeting logs with symlinks to sensitive files.",
+      "pattern": "[process:command_line MATCHES 'kubectl logs .*']",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00Z"
+    },
+
+
+    {
+      "type": "relationship",
+      "id": "relationship--1111aaaa-2222-bbbb-3333-cccc4444dddd",
+      "relationship_type": "uses",
+      "source_ref": "intrusion-set--00112233-4455-6677-8899-aabbccddeeff",
+      "target_ref": "attack-pattern--abcd1234-efgh-5678-ijkl-910mnopqrst"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2222aaaa-3333-bbbb-4444-cccc5555dddd",
+      "relationship_type": "related-to",
+      "source_ref": "attack-pattern--abcd1234-efgh-5678-ijkl-910mnopqrst",
+      "target_ref": "attack-pattern--5678ijkl-9101-mnop-qrst-uvwxyzaabbcc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3333aaaa-4444-bbbb-5555-cccc6666dddd",
+      "relationship_type": "related-to",
+      "source_ref": "attack-pattern--5678ijkl-9101-mnop-qrst-uvwxyzaabbcc",
+      "target_ref": "attack-pattern--9101mnop-qrst-uvwx-yzaa-bbccddeeffgg"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4444aaaa-5555-bbbb-6666-cccc7777dddd",
+      "relationship_type": "related-to",
+      "source_ref": "attack-pattern--9101mnop-qrst-uvwx-yzaa-bbccddeeffgg",
+      "target_ref": "attack-pattern--aabbccdd-eeff-1122-3344-556677889900"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5555aaaa-6666-bbbb-7777-cccc8888dddd",
+      "relationship_type": "related-to",
+      "source_ref": "attack-pattern--aabbccdd-eeff-1122-3344-556677889900",
+      "target_ref": "attack-pattern--bbccddeeff-1122-3344-5566-778899001122"
+    },
+
+
+    {
+      "type": "relationship",
+      "id": "relationship--6666aaaa-7777-bbbb-8888-cccc9999eeee",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--abcd1111-2222-3333-4444-555566667777",
+      "target_ref": "attack-pattern--abcd1234-efgh-5678-ijkl-910mnopqrst"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7777aaaa-8888-bbbb-9999-dddd0000ffff",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ijkl2222-3333-4444-5555-666677778888",
+      "target_ref": "attack-pattern--5678ijkl-9101-mnop-qrst-uvwxyzaabbcc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8888aaaa-9999-bbbb-0000-eeee1111ffff",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--mnop3333-4444-5555-6666-777788889999",
+      "target_ref": "attack-pattern--9101mnop-qrst-uvwx-yzaa-bbccddeeffgg"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7777aaaa-8888-bbbb-9999-dddd0000dddd",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ccdd4444-5555-6666-7777-88889999aaaa",
+      "target_ref": "attack-pattern--aabbccdd-eeff-1122-3344-556677889900"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8888aaaa-9999-bbbb-0000-eeee1111kkkkk",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ddeeff55-6666-7777-8888-9999aaaabbbb",
+      "target_ref": "attack-pattern--bbccddeeff-1122-3344-5566-778899001122"
+    }
+  ]
+}

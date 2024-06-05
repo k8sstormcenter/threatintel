@@ -1,0 +1,22 @@
+neo4j:
+  name: hub
+  resources:
+    cpu: "0.5"
+    memory: "2Gi"
+
+  # TODO - Remove hardcoded password
+  password: "password"
+
+volumes:
+  data:
+    mode: defaultStorageClass
+    defaultStorageClass:
+      requests:
+        storage: 2Gi
+
+# Prevent creation of LoadBalancer service
+services:
+  neo4j:
+    enabled: false
+  internals:
+    enabled: true

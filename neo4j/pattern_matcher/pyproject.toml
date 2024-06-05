@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pattern-matcher"
+version = "0.1.0"
+description = ""
+authors = ["Lukas Mahler <lukas.mahler@student.tuwien.ac.at>"]
+readme = "README.md"
+packages = [
+    { include = "*", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "~3.11"
+click = "^8.1.7"
+neo4j = "^5.20.0"
+aiokafka = {extras = ["snappy"], version = "^0.10.0"}
+stix2-matcher = "3.0.0"
+stix2-patterns = "2.0.0"
+packaging = "*"  # required by aiokafka
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
