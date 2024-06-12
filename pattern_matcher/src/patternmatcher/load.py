@@ -78,7 +78,7 @@ async def run(uri, username, password, data):
 
 @click.command()
 @click.argument('file_path', type=click.Path(exists=True))
-@click.option('--uri', default='bolt://localhost:7687', help='Neo4j URI')
+@click.option('--uri', default='bolt://neo4j-poc.neo4j.svc.cluster.local:7687', help='Neo4j URI')
 @click.option('--username', default='neo4j', help='Username for Neo4j')
 @click.option('--password', default='password', help='Password for Neo4j')
 def main(file_path, uri, username, password):
