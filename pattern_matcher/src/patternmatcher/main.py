@@ -76,14 +76,14 @@ class StixPatterMatcher:
         """Check if the bundle matches any of the indicators."""
         async with self.lock:
             for id, pattern in self.indicators.items():
+                # load observed data to neo4j
+                async with self.neo4j.session() as session:
+                    await session.execute_write(
+                        load_to_neo4j, sanitize_bundle(bundle)
+                    )
+
                 if matches(pattern, bundle):
                     log.info(f"Pattern {pattern} matched.")
-
-                    # load observed data to neo4j
-                    async with self.neo4j.session() as session:
-                        await session.execute_write(
-                            load_to_neo4j, sanitize_bundle(bundle)
-                        )
 
                     # Add relation to indicator
                     query = """MATCH (i:Indicator {id: $id}), (o:ObservedData {id: $obs_id})
@@ -99,7 +99,7 @@ class StixPatterMatcher:
 @click.option(
     "--neo_uri",
     "-n",
-    default="bolt://neo4j-poc.neo4j.svc.cluster.local:7687",
+    default="bolt://neo4j.neo4j.svc.cluster.local:7687",
     help="Neo4j URI",
 )
 @click.option("--neo_user", "-u", default="neo4j", help="Username for Neo4j")
@@ -113,6 +113,8 @@ class StixPatterMatcher:
 @click.option("--kafka_topic", "-t", default="signal", help="Kafka/Redpanda topic")
 def main(neo_uri, neo_user, neo_pass, kafka_uri, kafka_topic):
     """Run the STIX indicator pattern matcher."""
+
+
 
     log.info(f"Starting STIX pattern matcher.")
     neo4j_driver = AsyncGraphDatabase.driver(uri=neo_uri, auth=(neo_user, neo_pass))
