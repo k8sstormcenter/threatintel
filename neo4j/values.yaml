@@ -12,7 +12,7 @@ volumes:
     mode: defaultStorageClass
     defaultStorageClass:
       requests:
-        storage: 2Gi
+        storage: 20Gi
 
 # Prevent creation of LoadBalancer service
 services:

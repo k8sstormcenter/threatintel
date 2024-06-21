@@ -16,6 +16,7 @@ forward-neo4j:
 insert-attack-models:
 	kubectl cp stix/code/stix-attack-tree.json redpanda/matcher:/tmp/.
 	kubectl cp pattern_matcher/src/patternmatcher/load.py redpanda/matcher:/app/src/patternmatcher/load.py
+	kubectl cp pattern_matcher/src/patternmatcher/main.py redpanda/matcher:/app/src/patternmatcher/main.py
 	kubectl exec -it -n redpanda matcher -- python /app/src/patternmatcher/load.py /tmp/stix-attack-tree.json
 
 

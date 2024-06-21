@@ -99,7 +99,7 @@ class StixPatterMatcher:
 @click.option(
     "--neo_uri",
     "-n",
-    default="bolt://neo4j.neo4j.svc.cluster.local:7687",
+    default="bolt://neo4j-poc.neo4j.svc.cluster.local:7687",
     help="Neo4j URI",
 )
 @click.option("--neo_user", "-u", default="neo4j", help="Username for Neo4j")
