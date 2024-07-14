@@ -85,3 +85,6 @@ After setting up your models, you can either simulate an attack on the honey clu
   make forward-neo4j
   ```
 Once connected, navigate to `localhost:7474` in your web browser to check the database entries and see if the matcher has detected any relevant attacks as defined by your models. With some luck you should be able to see lot of colorful detected balls.
+
+
+[![Detection](./figures/log-detection.png)](https://drive.google.com/file/d/1RfPr_7RmXDlU22-l7ZFoMnWJKloP0VpG/view?usp=sharing)
