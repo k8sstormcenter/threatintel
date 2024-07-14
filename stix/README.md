@@ -8,7 +8,7 @@ For current Tetragon traces, we therefore can make use of following SCOs: [Proce
 
 For future inclusion of Tetragon network logs, we could simply reference Network Objects in the Observed Data instead of Process Objects.
 
-![STIX2.1 Modelling of a Tetragon Log](figures/stix-log.jpg)
+![STIX2.1 Modelling of a Tetragon Log](../figures/stix-log.jpg)
 
 ### STIX Code
 
@@ -136,7 +136,7 @@ For future inclusion of Tetragon network logs, we could simply reference Network
 
 ## Attack Tree
 The following shows a STIX graph representation of the HostPath-Log-Symlink Attack Tree described in the honeycluster repo, including some Indicators that should help in identifying attacker logs. More about it below:
-![STIX2.1 Modelling of a Attack Tree](figures/stix-attack-tree.jpg)
+![STIX2.1 Modelling of a Attack Tree](../figures/stix-attack-tree.jpg)
 
 To model a theoretical attack tree and attach helpful indicators using STIX 2.1, we utilize three STIX objects:
 
