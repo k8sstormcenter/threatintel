@@ -19,8 +19,8 @@ insert-attack-models:
 	kubectl exec -it -n redpanda $${POD_NAME} -- python /app/src/patternmatcher/load.py /tmp/$(notdir ${STIX_MODEL_PATH})
 
 destroy-matcher:
-	kubectl delete pods matcher -n redpanda
+	kubectl delete deployment/matcher -n redpanda
 
 destroy-neo4j:
-	helm uninstall neo4-poc -n neo4j
+	helm uninstall neo4j-poc -n neo4j
 	kubectl delete ns neo4j
