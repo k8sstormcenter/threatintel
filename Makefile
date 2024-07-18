@@ -1,3 +1,5 @@
+STIX_MODEL_PATH=stix/examples/stix-attack-model.json
+
 all: install-matcher install-neo4j insert-attack-models
 
 install-matcher:
@@ -15,9 +17,8 @@ forward-neo4j:
 # and port-forwarding of neo4j using forward-neo4j rule
 insert-attack-models:
 	POD_NAME=$$(kubectl get pods -n redpanda -l app=matcher -o jsonpath='{.items[0].metadata.name}') ;\
-	kubectl cp stix/examples/stix-attack-tree.json redpanda/$${POD_NAME}:/tmp/. ;\
-	kubectl exec -it -n redpanda $${POD_NAME} -- python /app/src/patternmatcher/load.py /tmp/stix-attack-tree.json
-
+	kubectl cp ${STIX_MODEL_PATH} redpanda/$${POD_NAME}:/tmp ;\
+	kubectl exec -it -n redpanda $${POD_NAME} -- python /app/src/patternmatcher/load.py /tmp/$(notdir ${STIX_MODEL_PATH})
 
 
 destroy-matcher:

@@ -30,7 +30,7 @@ The primary focus of this repository is to equip users with the tools and knowle
 ```
 
 ### Pattern Matcher
-The [pattern_matcher](./pattern_matcher) directory provides a Python project that is your toolkit for transforming STIX models and interfering with the threat database. For detailed information take a look at the pattern matcher [README](./pattern_matcher/README.md). The pattern matcher is responsible for:
+The [pattern_matcher](./pattern_matcher) directory provides a Python package which is your toolkit for transforming logs from e.g. a honey cluster to STIX models and interacting with the threat database. For detailed information take a look at the pattern matcher [README](./pattern_matcher/README.md). The pattern matcher is responsible for:
 
 - **Transforming Logs**: Convert logs produced by a honeycluster into STIX observables.
 - **STIX Management**: Manage and upload STIX attack models and indicators into the threat database.
@@ -38,9 +38,9 @@ The [pattern_matcher](./pattern_matcher) directory provides a Python project tha
 
 ### STIX Examples
 The [stix](./stix) directory provides examples and resources to help users understand how to utilize STIX data structures for their own threat intelligence and attack detection needs:
-- **STIX Attacks and Indicators**: Offers examples and guidelines on defining and customizing STIX attacks and indicators. These resources should aid users in building their own attack models tailored to be detected by their honeyclusters.
+- **STIX Attacks and Indicators**: Offers examples and guidelines on defining and customizing STIX attacks and indicators. These resources should aid users in building their own attack models tailored to detect malicious behavior  their honeyclusters.
 - **STIX Observables**: Examples how STIX observables from raw data may look like.
-The [stix README.md](./stix/README.md)
+
 
 
 ## Getting Started
@@ -75,7 +75,7 @@ Now, focus on defining what you are detecting/defending against by creating your
      ```
    - **Manual Upload**: If you are deploying your own attack model and indicators, upload them to the threat database using the following command:
      ```bash
-     python pattern_matcher/src/patternmatcher/load.py <path to your attack model JSON file>
+     make insert-attack-models STIX_MODEL_PATH=path/to/stix/attack/model.json
      ```
 
 ### Step 4: Monitor and Verify Attacks
