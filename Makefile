@@ -13,13 +13,10 @@ install-neo4j:
 forward-neo4j:
 	kubectl port-forward -n neo4j service/neo4j-poc 7687:7687
 
-# For now, needs patternmatcher package installed in active python virtual environment
-# and port-forwarding of neo4j using forward-neo4j rule
 insert-attack-models:
 	POD_NAME=$$(kubectl get pods -n redpanda -l app=matcher -o jsonpath='{.items[0].metadata.name}') ;\
 	kubectl cp ${STIX_MODEL_PATH} redpanda/$${POD_NAME}:/tmp ;\
 	kubectl exec -it -n redpanda $${POD_NAME} -- python /app/src/patternmatcher/load.py /tmp/$(notdir ${STIX_MODEL_PATH})
-
 
 destroy-matcher:
 	kubectl delete pods matcher -n redpanda
