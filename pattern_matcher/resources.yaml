@@ -19,11 +19,3 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-
-
-
-
-
-
-      # command: ["python", "src/patternmatcher/main.py"]
-      # args: ["--neo_uri", "bolt://neo4j-poc.neo4j.svc.cluster.local:7687", "--neo_user", "neo4j", "--neo_pass", "password", "--kafka_uri", "redpanda-src.redpanda.svc.cluster.local:9093", "--kafka_topic", "cr1"]
