@@ -44,7 +44,12 @@ The [stix](./stix) directory provides examples and resources to help users under
 
 
 ## Getting Started
-Follow these detailed steps to deploy the necessary components on your honey cluster, create your attack model, upload it, and set up monitoring for your specific attack interests:
+Follow these detailed steps to deploy the necessary components on your honey cluster, create your attack model, upload it, and set up monitoring for your specific attack interests.
+
+Step 1-3 can be executed at once using:
+```bash
+make
+```
 
 
 ### Step 1: Deploy the Threat Database
@@ -86,3 +91,11 @@ After setting up your models, you can either simulate an attack on the honey clu
 Once connected, navigate to `localhost:7474` in your web browser to check the database entries and see if the matcher has detected any relevant attacks as defined by your models. With some luck you should be able to see lots of colorful detected balls.
 
 [![Detection](./figures/log-detection.png)](https://drive.google.com/file/d/1RfPr_7RmXDlU22-l7ZFoMnWJKloP0VpG/view?usp=sharing)
+
+
+### Teardown
+Remove all created resources (from step 1-3) on your cluster using
+
+```bash
+make destroy
+```
