@@ -219,7 +219,7 @@ def transform_tetragon_to_stix(tetragon_log):
 
 
 @click.command()
-@click.argument('file_path', type=click.Path(exists=True))
+@click.argument("file_path", type=click.Path(exists=True))
 def main(file_path: str):
     """Parse a tetragon log in json format from a file and print its
     STIX representation in json format to stdout"""
@@ -234,6 +234,7 @@ def main(file_path: str):
             bundle = transform_tetragon_to_stix(tetragon_log)
             bundles.append(bundle)
         print(json.dumps(bundles, indent=2))
+
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,11 @@
 import asyncio
 import json
+from pathlib import Path
 import click
+import logging
 from neo4j import AsyncGraphDatabase
+
+LOG = logging.getLogger(__file__)
 
 async def load_to_neo4j(tx, data):
     for obj in data['objects']:
@@ -81,17 +85,32 @@ async def run(uri, username, password, data):
 @click.option('--uri', default='bolt://neo4j-poc.neo4j.svc.cluster.local:7687', help='Neo4j URI')
 @click.option('--username', default='neo4j', help='Username for Neo4j')
 @click.option('--password', default='password', help='Password for Neo4j')
-def main(file_path, uri, username, password):
+def main(file_path: str, uri: str, username: str, password: str):
 
-    with open(file_path, 'r') as file:
-        data = json.load(file)
+    pathlib_path = Path(file_path)
+    paths: list[Path]
 
-    if type(data) == dict:
-        asyncio.run(run(uri, username, password, data))
+    if pathlib_path.is_dir():
+        paths = list(filter(lambda p: p.is_file() , pathlib_path.glob('**/*')))
     else:
-        for bundle in data:
-            asyncio.run(run(uri, username, password, bundle))
+        paths = [pathlib_path]
+
+    LOG.info(f"Detected {len(paths)} files. Starting loading of files...")
+
+    for path in paths:
+        LOG.info(f"Loading file {path} (of {len(paths)})")
+        with open(path, 'r') as file:
+            data = json.load(file)
+
+        LOG.info(f"Found data:\n{data}")
+
+        if type(data) == dict:
+            asyncio.run(run(uri, username, password, data))
+        else:
+            for bundle in data:
+                asyncio.run(run(uri, username, password, bundle))
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     main()

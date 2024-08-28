@@ -14,8 +14,9 @@ spec:
     spec:
       containers:
       - name: matcher
-        image: ghcr.io/k8sstormcenter/matcher:0.0.1
+        image: ghcr.io/k8sstormcenter/matcher:latest
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        imagePullPolicy: Always

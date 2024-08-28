@@ -19,7 +19,10 @@ forward-neo4j:
 insert-attack-models:
 	POD_NAME=$$(kubectl get pods -n redpanda -l app=matcher -o jsonpath='{.items[0].metadata.name}') ;\
 	kubectl cp ${STIX_MODEL_PATH} redpanda/$${POD_NAME}:/tmp ;\
-	kubectl exec -it -n redpanda $${POD_NAME} -- python /app/src/patternmatcher/load.py /tmp/$(notdir ${STIX_MODEL_PATH})
+	kubectl exec -it -n redpanda $${POD_NAME} -- python -m patternmatcher.load /tmp/$(notdir ${STIX_MODEL_PATH})
+
+insert-standard-attack-models:
+	kubectl exec -it -n redpanda deployment/matcher -- python -m patternmatcher.load ./resource/stix/bundles
 
 destroy: destroy-matcher destroy-neo4j
 
