@@ -1,12 +1,24 @@
+import base64
+from json.encoder import JSONEncoder
 import uuid
 import json
 from datetime import datetime
+from stix2 import File, Artifact, ObservedData
 
 import click
+import stix2
 from patternmatcher.constants import (
     TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE,
     OBSERVABLE_STIX_BUNDLE_EXAMPLE,
 )
+from patternmatcher.model import TetragonLog
+
+
+TOPLEVEL_EXTENSION_DEFINITION_ID = "toplevel-property-extension"
+# @stix2.v21.CustomExtension(
+#         TOPLEVEL_EXTENSION_DEFINITION_ID, [
+#             ('content', stix2.properties.StringProperty())]
+#              )
 
 
 def generate_stix_id(type):
@@ -200,6 +212,45 @@ def transform_process_kprobe_to_stix(log):
     return stix_objects
 
 
+def transform_log_to_stix(log: TetragonLog):
+    stix_objects: list = []
+    time = datetime.fromisoformat(log.get("timestamp", _get_current_time_iso_format()))
+
+    file_content = stix2.v21.Artifact(
+        mime_type="plain/text",
+        payload_bin=base64.b64encode(log["message"].encode()),
+        message=log["message"],
+        source_type=log["source_type"],
+        kubernetes=log["kubernetes"],
+        extensions={
+            "extension-definition--dd73de4f-a7f3-49ea-8ec1-8e884196b7a8": {
+                "extension_type": "toplevel-property-extension",
+            }
+        },
+    )
+    file_content_dict = dict(file_content)
+    file_content_dict["payload_bin"] = file_content_dict[
+        "payload_bin"
+    ].decode()  # json cannot serialize binary
+    stix_objects.append(file_content_dict)
+
+    file = File(name=log["file"], content_ref=file_content["id"])
+    stix_objects.append(dict(file))
+
+    observed_data = ObservedData(
+        first_observed=time,
+        last_observed=time,
+        number_observed=1,
+        object_refs=[file_content, file],
+    )
+    # observed_data_dict = dict(observed_data)
+    # observed_data_dict["first_observed"] = str(observed_data_dict["first_observed"])
+    # observed_data_dict["last_observed"] = str(observed_data_dict["last_observed"])
+    stix_objects.append(dict(observed_data))
+
+    return stix_objects
+
+
 def transform_tetragon_to_stix(tetragon_log):
     stix_bundle = {
         "type": "bundle",
@@ -214,8 +265,19 @@ def transform_tetragon_to_stix(tetragon_log):
     elif "process_kprobe" in tetragon_log:
         stix_objects = transform_process_kprobe_to_stix(tetragon_log["process_kprobe"])
         stix_bundle["objects"].extend(stix_objects)
+    elif "source_type" in tetragon_log:
+        stix_objects = transform_log_to_stix(tetragon_log)
+        stix_bundle["objects"].extend(stix_objects)
 
     return stix_bundle
+
+
+class CustomEncoder(JSONEncoder):
+    def default(self, o):
+        try:
+            return super().default(o)
+        except Exception:
+            return str(o)
 
 
 @click.command()
@@ -233,7 +295,7 @@ def main(file_path: str):
         for tetragon_log in tetragon_logs:
             bundle = transform_tetragon_to_stix(tetragon_log)
             bundles.append(bundle)
-        print(json.dumps(bundles, indent=2))
+        print(json.dumps(bundles, indent=2, cls=CustomEncoder))
 
 
 if __name__ == "__main__":
