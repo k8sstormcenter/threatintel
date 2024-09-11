@@ -7,6 +7,7 @@ from stix2 import File, Artifact, ObservedData
 
 import click
 import stix2
+from stix2.utils import STIXdatetime
 from patternmatcher.constants import (
     TETRAGON_PROCESS_KPROBE_LOG_EXAMPLE,
     OBSERVABLE_STIX_BUNDLE_EXAMPLE,
@@ -228,14 +229,14 @@ def transform_log_to_stix(log: TetragonLog):
             }
         },
     )
-    file_content_dict = dict(file_content)
-    file_content_dict["payload_bin"] = file_content_dict[
-        "payload_bin"
-    ].decode()  # json cannot serialize binary
-    stix_objects.append(file_content_dict)
+    # file_content_dict = dict(file_content)
+    # file_content_dict["payload_bin"] = file_content_dict[
+    #     "payload_bin"
+    # ].decode()  # json cannot serialize binary
+    stix_objects.append(encode_dict(dict(file_content)))
 
     file = File(name=log["file"], content_ref=file_content["id"])
-    stix_objects.append(dict(file))
+    stix_objects.append(encode_dict(dict(file)))
 
     observed_data = ObservedData(
         first_observed=time,
@@ -243,12 +244,25 @@ def transform_log_to_stix(log: TetragonLog):
         number_observed=1,
         object_refs=[file_content, file],
     )
-    # observed_data_dict = dict(observed_data)
-    # observed_data_dict["first_observed"] = str(observed_data_dict["first_observed"])
-    # observed_data_dict["last_observed"] = str(observed_data_dict["last_observed"])
-    stix_objects.append(dict(observed_data))
+    observed_data_dict = dict(observed_data)
+    # observed_data_dict["first_observed"] = observed_data_dict["first_observed"].isoformat()
+    # observed_data_dict["last_observed"] = observed_data_dict["last_observed"].isoformat()
+
+    stix_objects.append(encode_dict(dict(observed_data_dict)))
+
 
     return stix_objects
+
+def encode_dict(d: dict):
+    for key, val in d.items():
+        if type(val) is STIXdatetime:
+            d[key] = val.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+        elif type(val) is bytes:
+            d[key] = val.decode()
+
+    return d
+
 
 
 def transform_tetragon_to_stix(tetragon_log):
@@ -274,6 +288,8 @@ def transform_tetragon_to_stix(tetragon_log):
 
 class CustomEncoder(JSONEncoder):
     def default(self, o):
+        if type(o) is STIXdatetime:
+            return o.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
         try:
             return super().default(o)
         except Exception:

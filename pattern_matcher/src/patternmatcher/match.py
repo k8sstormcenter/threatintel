@@ -5,11 +5,11 @@ from patternmatcher.constants import *
 import logging as log
 
 
-def matches(pattern, bundle, stix_version=STIX_VERSION):
+def matches(pattern, bundles: list[dict], stix_version=STIX_VERSION):
     try:
-        return len(match(pattern, [bundle], stix_version=stix_version)) == 1
+        return len(match(pattern, bundles, stix_version=stix_version)) > 0
     except Exception as e:
-        log.error(f"Error matching pattern {pattern} to bundle {bundle}: {e}")
+        log.error(f"Error matching pattern {pattern} to bundle {bundles}: {e}")
         return False
 
 

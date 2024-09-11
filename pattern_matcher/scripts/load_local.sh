@@ -19,5 +19,5 @@ jq "[.[].value.payload]" < "$TETRAGON_LOG" > "$PREPROCESSED"
 python -m patternmatcher.parse "$PREPROCESSED" > "$STIX_PATH"
 
 # load stix into neo4j
-python -m patternmatcher.load "$STIX_PATH"
+# python -m patternmatcher.load "$STIX_PATH"
 

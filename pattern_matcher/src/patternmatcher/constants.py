@@ -201,7 +201,7 @@ OBSERVABLE_STIX_BUNDLE_EXAMPLE = {
   ]
 }
 
-OBSERVABLE_STIX_BUNDLE_EXAMPLE2 = {
+OBSERVABLE_STIX_BUNDLE_EXAMPLE2 = [{
     "type": "bundle",
     "id": "bundle--0749b3fa-5f45-41fc-b132-15f909b0e855",
     "spec_version": "2.1",
@@ -267,4 +267,4 @@ OBSERVABLE_STIX_BUNDLE_EXAMPLE2 = {
             ]
         }
     ]
-}
+}]

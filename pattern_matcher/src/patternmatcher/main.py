@@ -1,11 +1,15 @@
+from datetime import datetime, timedelta
 import json
+import traceback
 import asyncio
 from asyncio import Semaphore
+from typing import Dict, TypedDict
 import click
 from neo4j import AsyncGraphDatabase, AsyncDriver
 from aiokafka import AIOKafkaConsumer
 import logging as log
 
+from patternmatcher.constants import STIX_VERSION
 from patternmatcher.parse import (
     transform_tetragon_to_stix,
     get_observable_id,
@@ -13,8 +17,14 @@ from patternmatcher.parse import (
 )
 from patternmatcher.match import matches
 from patternmatcher.load import load_to_neo4j
+from stix2matcher.matcher import match
 
 log.basicConfig(level=log.INFO)
+
+
+class CachedSdo(TypedDict):
+    added: datetime
+    sdo: dict
 
 
 class StixPatterMatcher:
@@ -24,6 +34,7 @@ class StixPatterMatcher:
 
     def __init__(self, neo4j_driver: AsyncDriver):
         self.indicators: dict[str, str] = {}
+        self.cached_sdos: list = []
         self.lock = Semaphore()
         self.neo4j = neo4j_driver
 
@@ -34,6 +45,7 @@ class StixPatterMatcher:
         )
         await asyncio.gather(
             self._sheduled_task(self.load_indicators, 10),
+            self._sheduled_task(self.match_cached, 60),
             self.consume_kafka_topics(kafka_uri, kafka_topic),
         )
 
@@ -57,6 +69,29 @@ class StixPatterMatcher:
 
         log.info(f"Currently watching {len(self.indicators)} indicators.")
 
+    async def match_cached(self):
+        """Match cached STIX domain objects in order to allow queries over multiple bundles."""
+
+        log.info(f"Currently {len(self.cached_sdos)} sdos, cleaning outdated ones...")
+        # self.cached_sdos = [cached_sdo for cached_sdo in self.cached_sdos if cached_sdo["added"] > (datetime.now() - timedelta(minutes=2))]
+
+        sdos: list[dict] = [cached_sdo["sdo"] for cached_sdo in self.cached_sdos]
+        log.info(f"Matching {len(sdos)} cached sdos.")
+
+        if len(sdos) > 0:
+            for id, pattern in self.indicators.items():
+                res = match(pattern, sdos, stix_version=STIX_VERSION)
+                log.info(f"pattern {pattern} found {len(res)} matches.")
+                query = """MATCH (i:Indicator {id: $id}), (o:ObservedData {id: $obs_id})
+                            MERGE (i)-[:MATCHED]->(o)"""
+
+                async with self.lock:
+                    for matched_bundle in res:
+                        async with self.neo4j.session() as session:
+                            await session.run(
+                                query, id=id, obs_id=get_observable_id(matched_bundle)
+                            )
+
     async def consume_kafka_topics(self, server: str, topic: str):
         consumer = AIOKafkaConsumer(
             topic, bootstrap_servers=server, auto_offset_reset="latest"
@@ -67,22 +102,26 @@ class StixPatterMatcher:
             try:
                 data = json.loads(message.value)
                 bundle = transform_tetragon_to_stix(data)
+                log.debug(f"Transformed consumer msg to bundle: {bundle}")
+                # cache sdo
+                self.cached_sdos.append(CachedSdo(added=datetime.now(), sdo=bundle))
+
                 await self.check_bundle(bundle)
             except Exception as e:
-                log.warning(f"Error transforming message: {e}")
+                log.warning(
+                    f"Error transforming message: {e}\n{traceback.format_exc()}"
+                )
                 continue
 
     async def check_bundle(self, bundle):
         """Check if the bundle matches any of the indicators."""
         async with self.lock:
-            for id, pattern in self.indicators.items():
-                # load observed data to neo4j
-                async with self.neo4j.session() as session:
-                    await session.execute_write(
-                        load_to_neo4j, sanitize_bundle(bundle)
-                    )
+            # load observed data to neo4j
+            async with self.neo4j.session() as session:
+                await session.execute_write(load_to_neo4j, sanitize_bundle(bundle))
 
-                if matches(pattern, bundle):
+            for id, pattern in self.indicators.items():
+                if matches(pattern, [bundle]):
                     log.info(f"Pattern {pattern} matched.")
 
                     # Add relation to indicator
@@ -113,8 +152,6 @@ class StixPatterMatcher:
 @click.option("--kafka_topic", "-t", default="signal", help="Kafka/Redpanda topic")
 def main(neo_uri, neo_user, neo_pass, kafka_uri, kafka_topic):
     """Run the STIX indicator pattern matcher."""
-
-
 
     log.info(f"Starting STIX pattern matcher.")
     neo4j_driver = AsyncGraphDatabase.driver(uri=neo_uri, auth=(neo_user, neo_pass))
