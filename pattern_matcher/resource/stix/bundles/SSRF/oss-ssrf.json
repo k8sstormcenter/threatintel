@@ -10,7 +10,7 @@
       "id": "indicator--b1b27294-3c80-572e-9378-fd2bbe947914",
       "created": "2024-09-10T12:00:00.000Z",
       "modified": "2024-09-10T12:00:00.000Z",
-      "pattern": "([artifact:message LIKE '%Fetching access token for service account%'] AND [artifact:message LIKE '%Loading new entry succeeded%'] AND [artifact:message LIKE '%Fetched token for pod pacman/minimi%'] AND [artifact:message LIKE '%/computeMetadata/v1/instance/service-accounts/default/token\" HTTP/200%'] AND [artifact:message LIKE '%GET /curl?url=http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token HTTP/2.0\" 200%']) WITHIN 60 SECONDS",
+      "pattern": "([artifact:message LIKE '%Fetching access token for service account%'] AND [artifact:message LIKE '%Loading new entry succeeded%'] AND [artifact:message LIKE '%Fetched token for pod%'] AND [artifact:message LIKE '%/computeMetadata/v1/instance/service-accounts/default/token\" HTTP/200%'] AND [artifact:message LIKE '%GET%?url=http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token HTTP/2.0\" 200%']) WITHIN 60 SECONDS",
       "pattern_type": "stix",
       "pattern_version": "2.1",
       "valid_from": "2024-09-10T12:00:00.000Z",
