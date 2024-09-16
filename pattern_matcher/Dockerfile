@@ -1,20 +1,22 @@
 # Build stage
 FROM python:3.11-slim as builder
+
 WORKDIR /build
-
-COPY pyproject.toml README.md ./
+COPY . .
 RUN pip install poetry
-COPY src ./src
+RUN poetry build
 
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-dev
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip install dist/*.whl
 
 # Deployment stage
 FROM python:3.11-slim as deploy
 WORKDIR /app
 
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY src ./src
-ENV PYTHONPATH="/app/src:$PYTHONPATH"
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-CMD ["python", "src/patternmatcher/main.py"]
+COPY ./resource/stix/bundles/ resource/stix/bundles
+ENTRYPOINT ["python", "-m", "patternmatcher.main"]

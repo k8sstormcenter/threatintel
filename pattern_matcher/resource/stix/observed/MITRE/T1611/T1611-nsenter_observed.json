@@ -1,0 +1,2009 @@
+[
+  {
+    "type": "bundle",
+    "id": "bundle--717e7cb3-abb9-4f46-aa53-71ab161d8601",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--da530260-90a2-440a-874d-a2ced05173bc",
+        "name": "containerd-shim-runc-v2"
+      },
+      {
+        "type": "file",
+        "id": "file--d7620152-37c3-4b8a-a221-0af1fc05e148",
+        "name": "local-path-provisioner"
+      },
+      {
+        "type": "process",
+        "id": "process--dc286f02-d0c2-4235-ad1e-36f6131a27c5",
+        "pid": 1470,
+        "command_line": "/usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id c486d64dea8a41284f56636bf443ba8d4469d878da6728c4d3b86ec3c6d36221 -address /run/containerd/containerd.sock",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/c486d64dea8a41284f56636bf443ba8d4469d878da6728c4d3b86ec3c6d36221",
+        "created_time": "2024-08-20T18:21:14.066435474Z",
+        "image_ref": "file--da530260-90a2-440a-874d-a2ced05173bc",
+        "extensions": {
+          "flags": "procFS auid",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjQxNjYwMDAwMDAwOjE="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--25abb2f5-a55a-40e9-a80a-1f5892c32610",
+        "pid": 1795,
+        "command_line": "/usr/local/bin/local-path-provisioner --debug start --helper-image docker.io/kindest/local-path-helper:v20230510-486859a6 --config /etc/config/config.json",
+        "cwd": "/",
+        "created_time": "2024-08-20T18:21:14.806435544Z",
+        "image_ref": "file--d7620152-37c3-4b8a-a221-0af1fc05e148",
+        "parent_ref": "process--dc286f02-d0c2-4235-ad1e-36f6131a27c5",
+        "extensions": {
+          "flags": "procFS auid rootcwd",
+          "docker": "91442afeae71999db82a2700fd8c4c8",
+          "container_id": "containerd://91442afeae71999db82a2700fd8c4c8f109a670c8bea025565bfe6f6ff525dfe",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--ebd84c78-1d74-4241-973a-17120ab9cfb9",
+        "created": "2024-08-23T11:38:57.015483Z",
+        "modified": "2024-08-23T11:38:57.015483Z",
+        "first_observed": "2024-08-23T11:38:57.015483Z",
+        "last_observed": "2024-08-23T11:38:57.015483Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--25abb2f5-a55a-40e9-a80a-1f5892c32610",
+          "process--dc286f02-d0c2-4235-ad1e-36f6131a27c5",
+          "file--da530260-90a2-440a-874d-a2ced05173bc",
+          "file--d7620152-37c3-4b8a-a221-0af1fc05e148"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--6d9b8750-b09c-437c-b0bb-332b284ae160",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--d25167d3-d60e-49ab-a691-48a18a849a52",
+        "name": "runc"
+      },
+      {
+        "type": "file",
+        "id": "file--94bb01a4-89b9-46d2-958a-ec6b665041dd",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "process",
+        "id": "process--b7e7ce4c-892c-4fee-9854-e53c7fb12c23",
+        "pid": 13026,
+        "command_line": "/usr/local/sbin/runc --root /run/containerd/runc/k8s.io --log /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/log.json --log-format json --systemd-cgroup create --bundle /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732 --pid-file /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/init.pid 1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/c2892727ce8023abe4a942d2687a9f8e7449718d2ec449beb4b3b0f7595058af",
+        "created_time": "2024-08-20T18:25:29.487488140Z",
+        "image_ref": "file--d25167d3-d60e-49ab-a691-48a18a849a52",
+        "extensions": {
+          "flags": "execve",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNTkxNzU5NDIyOjEzMDE0"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--85eb5461-c20d-412b-baa3-a5112186307c",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--94bb01a4-89b9-46d2-958a-ec6b665041dd",
+        "parent_ref": "process--b7e7ce4c-892c-4fee-9854-e53c7fb12c23",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--ec4922ff-c462-4554-a18b-8d6902a883be",
+        "created": "2024-08-23T11:38:57.015540Z",
+        "modified": "2024-08-23T11:38:57.015540Z",
+        "first_observed": "2024-08-23T11:38:57.015540Z",
+        "last_observed": "2024-08-23T11:38:57.015540Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--85eb5461-c20d-412b-baa3-a5112186307c",
+          "process--b7e7ce4c-892c-4fee-9854-e53c7fb12c23",
+          "file--d25167d3-d60e-49ab-a691-48a18a849a52",
+          "file--94bb01a4-89b9-46d2-958a-ec6b665041dd"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--750fad70-6891-4782-beaa-6a37102c7edc",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--2bdc7da5-6df8-4f5f-b78b-8a10e9b49ef8",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--49272789-54f3-4ab0-8b27-ab5143a466a1",
+        "name": "jq"
+      },
+      {
+        "type": "process",
+        "id": "process--1d3452e9-c2c7-4a77-9d21-36508f746e37",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--2bdc7da5-6df8-4f5f-b78b-8a10e9b49ef8",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNjMxMDUyMTc2OjEzMDI2"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--faf12a45-a578-4a9a-9641-f51508306fa5",
+        "pid": 13034,
+        "command_line": "/usr/bin/jq -r .bundle",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.514829586Z",
+        "image_ref": "file--49272789-54f3-4ab0-8b27-ab5143a466a1",
+        "parent_ref": "process--1d3452e9-c2c7-4a77-9d21-36508f746e37",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--d591a226-b163-4271-acd5-d97925cf0899",
+        "created": "2024-08-23T11:38:57.015596Z",
+        "modified": "2024-08-23T11:38:57.015596Z",
+        "first_observed": "2024-08-23T11:38:57.015596Z",
+        "last_observed": "2024-08-23T11:38:57.015596Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--faf12a45-a578-4a9a-9641-f51508306fa5",
+          "process--1d3452e9-c2c7-4a77-9d21-36508f746e37",
+          "file--2bdc7da5-6df8-4f5f-b78b-8a10e9b49ef8",
+          "file--49272789-54f3-4ab0-8b27-ab5143a466a1"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--82d099e2-f2b7-4993-8e8b-f09d480d1549",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--3d07ffcd-2874-4f13-a6e1-5ceff30f8f02",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--458b4b39-aff5-4b7e-acd1-e706d2f231f1",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--acae11ea-a01a-4fdd-ba2b-429517c1bad1",
+        "name": "cp"
+      },
+      {
+        "type": "process",
+        "id": "process--c04268f5-ed7a-48a3-ba18-6b5fe859393e",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--458b4b39-aff5-4b7e-acd1-e706d2f231f1",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNjMxMDUyMTc2OjEzMDI2"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--5d40f56a-31c7-47e2-8277-0c275c48786b",
+        "pid": 13036,
+        "command_line": "/usr/bin/cp /kind/product_name /kind/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.554905311Z",
+        "image_ref": "file--acae11ea-a01a-4fdd-ba2b-429517c1bad1",
+        "parent_ref": "process--c04268f5-ed7a-48a3-ba18-6b5fe859393e",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--0512d4bd-a1e4-4169-b16f-7efaeb4836e9",
+        "created": "2024-08-23T11:38:57.015695Z",
+        "modified": "2024-08-23T11:38:57.015695Z",
+        "first_observed": "2024-08-23T11:38:57.015695Z",
+        "last_observed": "2024-08-23T11:38:57.015695Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--5d40f56a-31c7-47e2-8277-0c275c48786b",
+          "process--c04268f5-ed7a-48a3-ba18-6b5fe859393e",
+          "file--458b4b39-aff5-4b7e-acd1-e706d2f231f1",
+          "file--acae11ea-a01a-4fdd-ba2b-429517c1bad1"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--164197c2-335e-4624-830d-8c5fa4a578fa",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--d6c2f1f4-393c-48e0-823e-20bcd639af90",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--8642319e-74fd-43e7-ba81-459ed8ac90b7",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--e73d57db-1120-40fd-95dd-25b7fae37d33",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--e4e4a5f5-c72b-4c11-961c-89263befc180",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--8642319e-74fd-43e7-ba81-459ed8ac90b7",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNjMxMDUyMTc2OjEzMDI2"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--17de4a37-70af-4c79-820c-a83b9b2d8994",
+        "pid": 13037,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/product_name /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/sys/class/dmi/id/product_name",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.557884530Z",
+        "image_ref": "file--e73d57db-1120-40fd-95dd-25b7fae37d33",
+        "parent_ref": "process--e4e4a5f5-c72b-4c11-961c-89263befc180",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--d8e21114-b938-4926-ab05-0420666bf961",
+        "created": "2024-08-23T11:38:57.015750Z",
+        "modified": "2024-08-23T11:38:57.015750Z",
+        "first_observed": "2024-08-23T11:38:57.015750Z",
+        "last_observed": "2024-08-23T11:38:57.015750Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--17de4a37-70af-4c79-820c-a83b9b2d8994",
+          "process--e4e4a5f5-c72b-4c11-961c-89263befc180",
+          "file--8642319e-74fd-43e7-ba81-459ed8ac90b7",
+          "file--e73d57db-1120-40fd-95dd-25b7fae37d33"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--1780076d-021d-4050-b541-c8c8223ba93e",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--a0967a77-0382-4608-8107-a22e75a29071",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--6b2ed8da-d0cb-4425-b451-dd23fe66e6a0",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--f66f251d-4b7f-49e2-8493-12b68b370203",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--c0eb7649-593d-4591-90c3-38c6bd73e32c",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--6b2ed8da-d0cb-4425-b451-dd23fe66e6a0",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNjMxMDUyMTc2OjEzMDI2"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--e0f9a233-4779-48c3-9a69-4c7280e55bf3",
+        "pid": 13038,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/sys/class/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.560461822Z",
+        "image_ref": "file--f66f251d-4b7f-49e2-8493-12b68b370203",
+        "parent_ref": "process--c0eb7649-593d-4591-90c3-38c6bd73e32c",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--a054fd92-473f-41cd-9178-04135448f29f",
+        "created": "2024-08-23T11:38:57.015820Z",
+        "modified": "2024-08-23T11:38:57.015820Z",
+        "first_observed": "2024-08-23T11:38:57.015820Z",
+        "last_observed": "2024-08-23T11:38:57.015820Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--e0f9a233-4779-48c3-9a69-4c7280e55bf3",
+          "process--c0eb7649-593d-4591-90c3-38c6bd73e32c",
+          "file--6b2ed8da-d0cb-4425-b451-dd23fe66e6a0",
+          "file--f66f251d-4b7f-49e2-8493-12b68b370203"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--64b2beb0-a2c7-4fe4-ba01-9cbca7c73015",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--89866aee-1498-4bc7-9b4c-e3a1b1260d62",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--1acf0ceb-ec34-4d89-8305-0ea5ea839a45",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--9450e029-893a-4003-86bc-a16e7b695ed2",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--31d35cb4-80f1-4232-ab6b-fd0785e5dfd5",
+        "pid": 13033,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.512308166Z",
+        "image_ref": "file--1acf0ceb-ec34-4d89-8305-0ea5ea839a45",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNjMxMDUyMTc2OjEzMDI2"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--deeb8e05-56c0-49cc-8b5b-39797a757f2c",
+        "pid": 13039,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs/sys/devices/virtual/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732/rootfs",
+        "created_time": "2024-08-20T18:25:29.563376440Z",
+        "image_ref": "file--9450e029-893a-4003-86bc-a16e7b695ed2",
+        "parent_ref": "process--31d35cb4-80f1-4232-ab6b-fd0785e5dfd5",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--a57b025b-e550-4854-b4f3-f21bd0ebb4f9",
+        "created": "2024-08-23T11:38:57.015878Z",
+        "modified": "2024-08-23T11:38:57.015878Z",
+        "first_observed": "2024-08-23T11:38:57.015878Z",
+        "last_observed": "2024-08-23T11:38:57.015878Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--deeb8e05-56c0-49cc-8b5b-39797a757f2c",
+          "process--31d35cb4-80f1-4232-ab6b-fd0785e5dfd5",
+          "file--1acf0ceb-ec34-4d89-8305-0ea5ea839a45",
+          "file--9450e029-893a-4003-86bc-a16e7b695ed2"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--68d94e2c-682b-479a-aa08-a48148e3c331",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--18ae1156-1fef-47d0-b5c5-e59927bae2c0",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--4c60acff-47b9-4d8e-8656-d070b724d100",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--2cf33e16-a5d2-4057-8028-4eea35dc51a8",
+        "name": "containerd-shim-runc-v2"
+      },
+      {
+        "type": "file",
+        "id": "file--e659a2bd-5406-42ce-81b7-941c9a588e35",
+        "name": "sh"
+      },
+      {
+        "type": "process",
+        "id": "process--d145474a-2374-4ea5-bc2c-eabf373b777b",
+        "pid": 12942,
+        "command_line": "/usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id c2892727ce8023abe4a942d2687a9f8e7449718d2ec449beb4b3b0f7595058af -address /run/containerd/containerd.sock",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/c2892727ce8023abe4a942d2687a9f8e7449718d2ec449beb4b3b0f7595058af",
+        "created_time": "2024-08-20T18:25:29.316904983Z",
+        "image_ref": "file--2cf33e16-a5d2-4057-8028-4eea35dc51a8",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNDUxOTY3NzkyOjEyOTM0"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--1d2721f4-22d4-48c9-ab74-0d71d77d8cbb",
+        "pid": 13026,
+        "command_line": "/bin/sh /script/setup -p /var/local-path-provisioner/pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854_redpanda_redis-data-redis-master-0 -s 8589934592 -m Filesystem",
+        "cwd": "/",
+        "created_time": "2024-08-20T18:25:29.580691011Z",
+        "image_ref": "file--e659a2bd-5406-42ce-81b7-941c9a588e35",
+        "parent_ref": "process--d145474a-2374-4ea5-bc2c-eabf373b777b",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--06a807ab-64a4-4712-b7d3-863b61a31fb7",
+        "created": "2024-08-23T11:38:57.015941Z",
+        "modified": "2024-08-23T11:38:57.015941Z",
+        "first_observed": "2024-08-23T11:38:57.015941Z",
+        "last_observed": "2024-08-23T11:38:57.015941Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--1d2721f4-22d4-48c9-ab74-0d71d77d8cbb",
+          "process--d145474a-2374-4ea5-bc2c-eabf373b777b",
+          "file--2cf33e16-a5d2-4057-8028-4eea35dc51a8",
+          "file--e659a2bd-5406-42ce-81b7-941c9a588e35"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--1518e08c-33cd-4cb8-bf53-9b53bd322203",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--4cebf3a1-3278-4478-98a8-265f34ea3d97",
+        "name": "sh"
+      },
+      {
+        "type": "file",
+        "id": "file--f71326d9-1a75-4088-82f6-097cd6ae455b",
+        "name": "mkdir"
+      },
+      {
+        "type": "process",
+        "id": "process--16a09020-e6f2-4c83-b75a-5111a4f49fe9",
+        "pid": 13026,
+        "command_line": "/bin/sh /script/setup -p /var/local-path-provisioner/pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854_redpanda_redis-data-redis-master-0 -s 8589934592 -m Filesystem",
+        "cwd": "/",
+        "created_time": "2024-08-20T18:25:29.580691011Z",
+        "image_ref": "file--4cebf3a1-3278-4478-98a8-265f34ea3d97",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NTMxNDYwNDY5MDIwOjEyOTQy"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--cfc6e141-d4c9-45a4-bda4-e1d1d6ddcdeb",
+        "pid": 13046,
+        "command_line": "/bin/mkdir -m 0777 -p /var/local-path-provisioner/pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854_redpanda_redis-data-redis-master-0",
+        "cwd": "/",
+        "created_time": "2024-08-20T18:25:29.583557648Z",
+        "image_ref": "file--f71326d9-1a75-4088-82f6-097cd6ae455b",
+        "parent_ref": "process--16a09020-e6f2-4c83-b75a-5111a4f49fe9",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "1c762e3ecd0776b07def7b95681ee70",
+          "container_id": "containerd://1c762e3ecd0776b07def7b95681ee70dc37b90961d73636a11fb18b7eae08732",
+          "pod_name": "helper-pod-create-pvc-f456cc52-e363-4a0c-a0c7-ed0197b5e854",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--50a80bce-0c40-47c8-a071-94f98ef23673",
+        "created": "2024-08-23T11:38:57.015985Z",
+        "modified": "2024-08-23T11:38:57.015985Z",
+        "first_observed": "2024-08-23T11:38:57.015985Z",
+        "last_observed": "2024-08-23T11:38:57.015985Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--cfc6e141-d4c9-45a4-bda4-e1d1d6ddcdeb",
+          "process--16a09020-e6f2-4c83-b75a-5111a4f49fe9",
+          "file--4cebf3a1-3278-4478-98a8-265f34ea3d97",
+          "file--f71326d9-1a75-4088-82f6-097cd6ae455b"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--02cde607-de88-4f49-b0f2-48253d29b4cd",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--b0133433-8af4-4d01-b10a-21981b82216d",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--ba35fa18-ecc4-4260-80e8-8a04bafda017",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--fcc0d08a-9787-4f25-9052-d3cc55887b94",
+        "name": "runc"
+      },
+      {
+        "type": "file",
+        "id": "file--680535d7-7c12-42b7-986d-7f8b9498869c",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "process",
+        "id": "process--20306570-6d2f-4081-a6f4-ff2acef36fec",
+        "pid": 77148,
+        "command_line": "/usr/local/sbin/runc --root /run/containerd/runc/k8s.io --log /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/log.json --log-format json --systemd-cgroup create --bundle /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694 --pid-file /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/init.pid --console-socket /tmp/pty4041700652/pty.sock b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/5dffbff9c65c9d05e03717f331c0d4341c4d4748068bec14f865f865a46a6dec",
+        "created_time": "2024-08-20T19:31:29.369748237Z",
+        "image_ref": "file--fcc0d08a-9787-4f25-9052-d3cc55887b94",
+        "extensions": {
+          "flags": "execve",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTQzNzk1Mzc2MDo3NzEzNw=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--d832c0ba-9ee9-40fd-96e0-8885277e3520",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--680535d7-7c12-42b7-986d-7f8b9498869c",
+        "parent_ref": "process--20306570-6d2f-4081-a6f4-ff2acef36fec",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--b37f5564-d936-4a74-97c8-47ff66efb8b8",
+        "created": "2024-08-23T11:38:57.016042Z",
+        "modified": "2024-08-23T11:38:57.016042Z",
+        "first_observed": "2024-08-23T11:38:57.016042Z",
+        "last_observed": "2024-08-23T11:38:57.016042Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--d832c0ba-9ee9-40fd-96e0-8885277e3520",
+          "process--20306570-6d2f-4081-a6f4-ff2acef36fec",
+          "file--fcc0d08a-9787-4f25-9052-d3cc55887b94",
+          "file--680535d7-7c12-42b7-986d-7f8b9498869c"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--50696711-f2d3-48d8-b3a7-467e7051393f",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--bc78c1dd-7b86-4e8b-99f9-30251e831518",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--fc306a39-36c0-461b-8fad-d284a164650a",
+        "name": "jq"
+      },
+      {
+        "type": "process",
+        "id": "process--a0e8a925-0c53-4671-bef7-5505fef30b6a",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--bc78c1dd-7b86-4e8b-99f9-30251e831518",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTUxMzMxMjc2Mzo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--2d04c540-ee40-412c-a87a-c1d4cd87c869",
+        "pid": 77155,
+        "command_line": "/usr/bin/jq -r .bundle",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.420793546Z",
+        "image_ref": "file--fc306a39-36c0-461b-8fad-d284a164650a",
+        "parent_ref": "process--a0e8a925-0c53-4671-bef7-5505fef30b6a",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--b5aecf05-d9a8-46b4-ac75-e672bf0985b2",
+        "created": "2024-08-23T11:38:57.016090Z",
+        "modified": "2024-08-23T11:38:57.016090Z",
+        "first_observed": "2024-08-23T11:38:57.016090Z",
+        "last_observed": "2024-08-23T11:38:57.016090Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--2d04c540-ee40-412c-a87a-c1d4cd87c869",
+          "process--a0e8a925-0c53-4671-bef7-5505fef30b6a",
+          "file--bc78c1dd-7b86-4e8b-99f9-30251e831518",
+          "file--fc306a39-36c0-461b-8fad-d284a164650a"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--e3f6194c-55ae-4099-a1f8-de7f1a32888f",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--d80b659d-849f-40a5-a7b7-f2c35c3c03a3",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--a16f85d6-bf9c-4dd1-95ae-0b4eba0f675f",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--565fe891-d6d3-48b7-859b-393ad01a49e6",
+        "name": "cp"
+      },
+      {
+        "type": "process",
+        "id": "process--5ad91eff-cc82-4e2b-959a-f9bd65cfbb5a",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--a16f85d6-bf9c-4dd1-95ae-0b4eba0f675f",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTUxMzMxMjc2Mzo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--bfde8490-3c32-4d53-af01-34abcfd484dc",
+        "pid": 77156,
+        "command_line": "/usr/bin/cp /kind/product_name /kind/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.469903416Z",
+        "image_ref": "file--565fe891-d6d3-48b7-859b-393ad01a49e6",
+        "parent_ref": "process--5ad91eff-cc82-4e2b-959a-f9bd65cfbb5a",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--fb584c22-3d65-4f05-9a98-d8a709dfa846",
+        "created": "2024-08-23T11:38:57.016138Z",
+        "modified": "2024-08-23T11:38:57.016138Z",
+        "first_observed": "2024-08-23T11:38:57.016138Z",
+        "last_observed": "2024-08-23T11:38:57.016138Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--bfde8490-3c32-4d53-af01-34abcfd484dc",
+          "process--5ad91eff-cc82-4e2b-959a-f9bd65cfbb5a",
+          "file--a16f85d6-bf9c-4dd1-95ae-0b4eba0f675f",
+          "file--565fe891-d6d3-48b7-859b-393ad01a49e6"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--3334857d-2a86-43e3-80b1-d13e07ca35c1",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--b39bc527-1cd6-4373-a1a1-2937465ad1de",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--8351b114-5b4b-4a6c-a084-b129a8075f9a",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--4b20bff8-af53-461c-a7b8-39af18299015",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--ae880b74-76b2-467b-a587-b34b7806d670",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--8351b114-5b4b-4a6c-a084-b129a8075f9a",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTUxMzMxMjc2Mzo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--eb10f08e-00a9-4f05-9853-0be33dbd1156",
+        "pid": 77157,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/product_name /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/sys/class/dmi/id/product_name",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.474232815Z",
+        "image_ref": "file--4b20bff8-af53-461c-a7b8-39af18299015",
+        "parent_ref": "process--ae880b74-76b2-467b-a587-b34b7806d670",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--8dd21e32-7915-4cd8-8f7f-c38c7115e2d2",
+        "created": "2024-08-23T11:38:57.016195Z",
+        "modified": "2024-08-23T11:38:57.016195Z",
+        "first_observed": "2024-08-23T11:38:57.016195Z",
+        "last_observed": "2024-08-23T11:38:57.016195Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--eb10f08e-00a9-4f05-9853-0be33dbd1156",
+          "process--ae880b74-76b2-467b-a587-b34b7806d670",
+          "file--8351b114-5b4b-4a6c-a084-b129a8075f9a",
+          "file--4b20bff8-af53-461c-a7b8-39af18299015"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--29b71f3e-8cee-46bb-b820-cad810a70ad5",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--d3277f97-017e-4a69-86b7-e4b2b9722d8c",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--027108db-b0ea-40ae-bdde-2c85239ef435",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--f2ffb236-c720-45b4-9689-0393029be4b7",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--fc9fbeaa-0501-4d71-8ab8-64d43bffeb66",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--027108db-b0ea-40ae-bdde-2c85239ef435",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTUxMzMxMjc2Mzo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--9624fad4-b745-4f18-9d9b-94c33a8a78dd",
+        "pid": 77158,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/sys/class/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.478470859Z",
+        "image_ref": "file--f2ffb236-c720-45b4-9689-0393029be4b7",
+        "parent_ref": "process--fc9fbeaa-0501-4d71-8ab8-64d43bffeb66",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--e3650297-77a8-487c-98a5-6afe562158d6",
+        "created": "2024-08-23T11:38:57.016246Z",
+        "modified": "2024-08-23T11:38:57.016246Z",
+        "first_observed": "2024-08-23T11:38:57.016246Z",
+        "last_observed": "2024-08-23T11:38:57.016246Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--9624fad4-b745-4f18-9d9b-94c33a8a78dd",
+          "process--fc9fbeaa-0501-4d71-8ab8-64d43bffeb66",
+          "file--027108db-b0ea-40ae-bdde-2c85239ef435",
+          "file--f2ffb236-c720-45b4-9689-0393029be4b7"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--1009133c-0859-47da-acee-27b2351ffb51",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--2cc2ae01-f958-4262-9404-8cca8b0efd52",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--9382fe00-22d1-4075-9954-9f0f58669eeb",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--7daa4c44-3820-4691-b344-78d9fa081600",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--34616298-6ec6-4529-ae96-8cb76c64d4e1",
+        "pid": 77154,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.415466919Z",
+        "image_ref": "file--9382fe00-22d1-4075-9954-9f0f58669eeb",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTUxMzMxMjc2Mzo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--ab702772-de89-4b8d-9ccb-719dde17e4d7",
+        "pid": 77159,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs/sys/devices/virtual/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694/rootfs",
+        "created_time": "2024-08-20T19:31:29.482366529Z",
+        "image_ref": "file--7daa4c44-3820-4691-b344-78d9fa081600",
+        "parent_ref": "process--34616298-6ec6-4529-ae96-8cb76c64d4e1",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--51de8fa3-932f-4b01-a994-65f40e7eca95",
+        "created": "2024-08-23T11:38:57.016294Z",
+        "modified": "2024-08-23T11:38:57.016294Z",
+        "first_observed": "2024-08-23T11:38:57.016294Z",
+        "last_observed": "2024-08-23T11:38:57.016294Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--ab702772-de89-4b8d-9ccb-719dde17e4d7",
+          "process--34616298-6ec6-4529-ae96-8cb76c64d4e1",
+          "file--9382fe00-22d1-4075-9954-9f0f58669eeb",
+          "file--7daa4c44-3820-4691-b344-78d9fa081600"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--495cb81d-3ee3-495c-ad57-26d9340c2b8c",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--58410c4a-c29f-47b6-976e-c03ecf72931b",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--9896add8-7ede-4bca-83c4-40b06174436d",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--59f1fbaf-42e2-43c1-888f-12fab5ee119c",
+        "name": "containerd-shim-runc-v2"
+      },
+      {
+        "type": "file",
+        "id": "file--939d4535-e6a8-4cd2-8d2f-f22dc4e2b76b",
+        "name": "nsenter"
+      },
+      {
+        "type": "process",
+        "id": "process--dac3607d-92ff-4021-ae7c-53d87322f1dd",
+        "pid": 77047,
+        "command_line": "/usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id 5dffbff9c65c9d05e03717f331c0d4341c4d4748068bec14f865f865a46a6dec -address /run/containerd/containerd.sock",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/5dffbff9c65c9d05e03717f331c0d4341c4d4748068bec14f865f865a46a6dec",
+        "created_time": "2024-08-20T19:31:24.445163755Z",
+        "image_ref": "file--59f1fbaf-42e2-43c1-888f-12fab5ee119c",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ4NjU3ODk5MzQ2OTo3NzA0MA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--1b39957a-1f9b-4df1-8917-4ec955c73e66",
+        "pid": 77148,
+        "command_line": "/usr/bin/nsenter --mount=/proc/1/ns/mnt -- /bin/bash",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:29.510044941Z",
+        "image_ref": "file--939d4535-e6a8-4cd2-8d2f-f22dc4e2b76b",
+        "parent_ref": "process--dac3607d-92ff-4021-ae7c-53d87322f1dd",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--ed1f2ade-0fe9-43f1-ac23-acfe38eb2893",
+        "created": "2024-08-23T11:38:57.016347Z",
+        "modified": "2024-08-23T11:38:57.016347Z",
+        "first_observed": "2024-08-23T11:38:57.016347Z",
+        "last_observed": "2024-08-23T11:38:57.016347Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--1b39957a-1f9b-4df1-8917-4ec955c73e66",
+          "process--dac3607d-92ff-4021-ae7c-53d87322f1dd",
+          "file--59f1fbaf-42e2-43c1-888f-12fab5ee119c",
+          "file--939d4535-e6a8-4cd2-8d2f-f22dc4e2b76b"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--a8a254ed-e82c-440c-958b-3cb69dab2ad5",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--4a24f144-df59-4e64-b27c-3990f33dcdb7",
+        "name": "nsenter"
+      },
+      {
+        "type": "file",
+        "id": "file--e8781c4a-a963-4c4f-a0d9-ce35a4235bf1",
+        "name": "bash"
+      },
+      {
+        "type": "process",
+        "id": "process--289fe532-e8a4-40cb-b9bd-f4fabf16d146",
+        "pid": 77148,
+        "command_line": "/usr/bin/nsenter --mount=/proc/1/ns/mnt -- /bin/bash",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:29.510044941Z",
+        "image_ref": "file--4a24f144-df59-4e64-b27c-3990f33dcdb7",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ4NjU4ODcyNzM3Mjo3NzA0Nw=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--35f56f6f-b7cc-4c33-bbd1-2a26a8fc1021",
+        "pid": 77148,
+        "command_line": "/bin/bash None",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:29.512347058Z",
+        "image_ref": "file--e8781c4a-a963-4c4f-a0d9-ce35a4235bf1",
+        "parent_ref": "process--289fe532-e8a4-40cb-b9bd-f4fabf16d146",
+        "extensions": {
+          "flags": "execve rootcwd",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--dc66744c-5895-424d-b109-2b7471a0adc7",
+        "created": "2024-08-23T11:38:57.016389Z",
+        "modified": "2024-08-23T11:38:57.016389Z",
+        "first_observed": "2024-08-23T11:38:57.016389Z",
+        "last_observed": "2024-08-23T11:38:57.016389Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--35f56f6f-b7cc-4c33-bbd1-2a26a8fc1021",
+          "process--289fe532-e8a4-40cb-b9bd-f4fabf16d146",
+          "file--4a24f144-df59-4e64-b27c-3990f33dcdb7",
+          "file--e8781c4a-a963-4c4f-a0d9-ce35a4235bf1"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--e61f5860-773d-4c17-95a3-d06fe35b2c45",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--4dd06e72-08e4-4436-81fe-5965a1bda3c6",
+        "name": "bash"
+      },
+      {
+        "type": "file",
+        "id": "file--7def0775-1a7b-44d0-b824-9fe1752a37a7",
+        "name": "ls"
+      },
+      {
+        "type": "process",
+        "id": "process--96ad5947-0178-4ee8-83f7-c27d6b9bd7a5",
+        "pid": 77148,
+        "command_line": "/bin/bash None",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:29.512347058Z",
+        "image_ref": "file--4dd06e72-08e4-4436-81fe-5965a1bda3c6",
+        "extensions": {
+          "flags": "execve rootcwd",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTY1MzYwNjA0NDo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--0150b865-8d76-4671-a07f-2ad75fcbd33a",
+        "pid": 77265,
+        "command_line": "/usr/bin/ls None",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:35.310801745Z",
+        "image_ref": "file--7def0775-1a7b-44d0-b824-9fe1752a37a7",
+        "parent_ref": "process--96ad5947-0178-4ee8-83f7-c27d6b9bd7a5",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--e235d50e-1c33-470c-a48e-3a03ebe7ebcc",
+        "created": "2024-08-23T11:38:57.016438Z",
+        "modified": "2024-08-23T11:38:57.016438Z",
+        "first_observed": "2024-08-23T11:38:57.016438Z",
+        "last_observed": "2024-08-23T11:38:57.016438Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--0150b865-8d76-4671-a07f-2ad75fcbd33a",
+          "process--96ad5947-0178-4ee8-83f7-c27d6b9bd7a5",
+          "file--4dd06e72-08e4-4436-81fe-5965a1bda3c6",
+          "file--7def0775-1a7b-44d0-b824-9fe1752a37a7"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--83b7fcb7-999c-432c-ae00-9731d2e755ef",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--15927cb8-95ab-4b73-b5c3-7c948d892dc2",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--3a1ad466-ea95-42fa-88af-56902e636a50",
+        "name": "bash"
+      },
+      {
+        "type": "file",
+        "id": "file--1d2243c4-3285-4db1-aaf8-ce2fa0f641f0",
+        "name": "cat"
+      },
+      {
+        "type": "process",
+        "id": "process--2c8b2202-7296-47af-8876-eca81f9bb4e3",
+        "pid": 77148,
+        "command_line": "/bin/bash None",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:29.512347058Z",
+        "image_ref": "file--3a1ad466-ea95-42fa-88af-56902e636a50",
+        "extensions": {
+          "flags": "execve rootcwd",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6NDQ5MTY1MzYwNjA0NDo3NzE0OA=="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--cdef8621-0e6e-4552-9551-5bb1721e05ec",
+        "pid": 77318,
+        "command_line": "/usr/bin/cat /etc/shadow",
+        "cwd": "/",
+        "created_time": "2024-08-20T19:31:39.265460060Z",
+        "image_ref": "file--1d2243c4-3285-4db1-aaf8-ce2fa0f641f0",
+        "parent_ref": "process--2c8b2202-7296-47af-8876-eca81f9bb4e3",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "b61d19d405d15e303fe8fc5c7bc64d2",
+          "container_id": "containerd://b61d19d405d15e303fe8fc5c7bc64d2ae0317a52cc22761d9cd986bb4a254694",
+          "pod_name": "atomic-nsenter-escape-pod",
+          "namespace": "default"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--90109812-32b3-450d-a190-809e46f43d52",
+        "created": "2024-08-23T11:38:57.016490Z",
+        "modified": "2024-08-23T11:38:57.016490Z",
+        "first_observed": "2024-08-23T11:38:57.016490Z",
+        "last_observed": "2024-08-23T11:38:57.016490Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--cdef8621-0e6e-4552-9551-5bb1721e05ec",
+          "process--2c8b2202-7296-47af-8876-eca81f9bb4e3",
+          "file--3a1ad466-ea95-42fa-88af-56902e636a50",
+          "file--1d2243c4-3285-4db1-aaf8-ce2fa0f641f0"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--0d9c92c9-9597-46da-815d-01e2f7a5ed70",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--59ee2d9f-d07d-4de4-85e8-68c11d93dccb",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--a2233a10-57b1-4e87-928c-df28a13e5821",
+        "name": "containerd-shim-runc-v2"
+      },
+      {
+        "type": "file",
+        "id": "file--91051341-8e39-43c2-97c9-8a573259cc74",
+        "name": "local-path-provisioner"
+      },
+      {
+        "type": "process",
+        "id": "process--e76ef6a1-cf7f-4a97-bc8a-6ecdfc5235b5",
+        "pid": 1447,
+        "command_line": "/usr/local/bin/containerd-shim-runc-v2 -namespace k8s.io -id 2f8c60735a7effce790c3e59c91140e7f205e767c03f4f9350a6fe03bf5b8130 -address /run/containerd/containerd.sock",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/2f8c60735a7effce790c3e59c91140e7f205e767c03f4f9350a6fe03bf5b8130",
+        "created_time": "2024-08-22T11:11:36.841869417Z",
+        "image_ref": "file--a2233a10-57b1-4e87-928c-df28a13e5821",
+        "extensions": {
+          "flags": "procFS auid",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MTg2NTUwMDAwMDAwOjE="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--cc724cea-173f-40bf-ab4a-6d0c79233d19",
+        "pid": 2203,
+        "command_line": "/usr/local/bin/local-path-provisioner --debug start --helper-image docker.io/kindest/local-path-helper:v20230510-486859a6 --config /etc/config/config.json",
+        "cwd": "/",
+        "created_time": "2024-08-22T11:11:37.781869406Z",
+        "image_ref": "file--91051341-8e39-43c2-97c9-8a573259cc74",
+        "parent_ref": "process--e76ef6a1-cf7f-4a97-bc8a-6ecdfc5235b5",
+        "extensions": {
+          "flags": "procFS auid rootcwd",
+          "docker": "c3bf8928b0d473204d98b395f932995",
+          "container_id": "containerd://c3bf8928b0d473204d98b395f93299507fdfe6b2793a1655a3f6d56ddaadd46d",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--47107032-643e-426c-9b3e-c269c0b528d7",
+        "created": "2024-08-23T11:38:57.016545Z",
+        "modified": "2024-08-23T11:38:57.016545Z",
+        "first_observed": "2024-08-23T11:38:57.016545Z",
+        "last_observed": "2024-08-23T11:38:57.016545Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--cc724cea-173f-40bf-ab4a-6d0c79233d19",
+          "process--e76ef6a1-cf7f-4a97-bc8a-6ecdfc5235b5",
+          "file--a2233a10-57b1-4e87-928c-df28a13e5821",
+          "file--91051341-8e39-43c2-97c9-8a573259cc74"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--6c8db7aa-b9ee-4512-b4e1-95d1a77227ca",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--f069edbc-1ad1-468d-871b-6584a05a942f",
+        "name": "runc"
+      },
+      {
+        "type": "file",
+        "id": "file--bad51b08-4a77-4f36-a100-d5e47a4acc9a",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "process",
+        "id": "process--e6366a68-3c1c-425e-ada2-0e8c7c0a7f30",
+        "pid": 6830,
+        "command_line": "/usr/local/sbin/runc --root /run/containerd/runc/k8s.io --log /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/log.json --log-format json --systemd-cgroup create --bundle /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5 --pid-file /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/init.pid 525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/2f8c60735a7effce790c3e59c91140e7f205e767c03f4f9350a6fe03bf5b8130",
+        "created_time": "2024-08-22T11:12:19.290914397Z",
+        "image_ref": "file--f069edbc-1ad1-468d-871b-6584a05a942f",
+        "extensions": {
+          "flags": "execve",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4MzM3NDUzMDI1OjY4MTY="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--048812c9-82fb-48f4-b36b-cc1791ff019e",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--bad51b08-4a77-4f36-a100-d5e47a4acc9a",
+        "parent_ref": "process--e6366a68-3c1c-425e-ada2-0e8c7c0a7f30",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--c8790636-df3d-4e7b-8746-c2b9a9912d46",
+        "created": "2024-08-23T11:38:57.016587Z",
+        "modified": "2024-08-23T11:38:57.016587Z",
+        "first_observed": "2024-08-23T11:38:57.016587Z",
+        "last_observed": "2024-08-23T11:38:57.016587Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--048812c9-82fb-48f4-b36b-cc1791ff019e",
+          "process--e6366a68-3c1c-425e-ada2-0e8c7c0a7f30",
+          "file--f069edbc-1ad1-468d-871b-6584a05a942f",
+          "file--bad51b08-4a77-4f36-a100-d5e47a4acc9a"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--1de6c1dc-7561-4349-b5e1-5b6c9abe1401",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--e7eaf263-7136-4f01-80c8-f82ecb669400",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--34821624-e2a8-4683-a131-bdea1815fce3",
+        "name": "jq"
+      },
+      {
+        "type": "process",
+        "id": "process--520d4808-c30a-46be-b9d1-ece4582aebba",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--e7eaf263-7136-4f01-80c8-f82ecb669400",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4NDM5MDQzOTkwOjY4MzA="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--39613e0d-b8ba-4946-9b10-07e2c4d5ebcb",
+        "pid": 6838,
+        "command_line": "/usr/bin/jq -r .bundle",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.321178212Z",
+        "image_ref": "file--34821624-e2a8-4683-a131-bdea1815fce3",
+        "parent_ref": "process--520d4808-c30a-46be-b9d1-ece4582aebba",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--8cb6878a-779f-46db-828a-103291ac1797",
+        "created": "2024-08-23T11:38:57.016635Z",
+        "modified": "2024-08-23T11:38:57.016635Z",
+        "first_observed": "2024-08-23T11:38:57.016635Z",
+        "last_observed": "2024-08-23T11:38:57.016635Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--39613e0d-b8ba-4946-9b10-07e2c4d5ebcb",
+          "process--520d4808-c30a-46be-b9d1-ece4582aebba",
+          "file--e7eaf263-7136-4f01-80c8-f82ecb669400",
+          "file--34821624-e2a8-4683-a131-bdea1815fce3"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--c01b124a-0e4c-4e8c-974f-6cfc349790b1",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--f170413c-c8de-4570-840b-f1b09d56e07e",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--4019e636-aa05-40b9-85e7-570ee3efac1d",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--6c1ce5e6-3352-4c1e-9393-70b0817ef372",
+        "name": "cp"
+      },
+      {
+        "type": "process",
+        "id": "process--7522b05c-dabb-44df-8882-ba9b98b7a8b3",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--4019e636-aa05-40b9-85e7-570ee3efac1d",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4NDM5MDQzOTkwOjY4MzA="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--2690d2d4-d73e-4d9b-8b98-22c0ac9ac056",
+        "pid": 6839,
+        "command_line": "/usr/bin/cp /kind/product_name /kind/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.370662446Z",
+        "image_ref": "file--6c1ce5e6-3352-4c1e-9393-70b0817ef372",
+        "parent_ref": "process--7522b05c-dabb-44df-8882-ba9b98b7a8b3",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--be954bea-f8a2-4ea5-a41b-08a8405b4182",
+        "created": "2024-08-23T11:38:57.016682Z",
+        "modified": "2024-08-23T11:38:57.016682Z",
+        "first_observed": "2024-08-23T11:38:57.016682Z",
+        "last_observed": "2024-08-23T11:38:57.016682Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--2690d2d4-d73e-4d9b-8b98-22c0ac9ac056",
+          "process--7522b05c-dabb-44df-8882-ba9b98b7a8b3",
+          "file--4019e636-aa05-40b9-85e7-570ee3efac1d",
+          "file--6c1ce5e6-3352-4c1e-9393-70b0817ef372"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--d4e1ce40-5a4c-496b-88e8-8ce51f6bfd80",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--23ff5a8b-5466-45f0-b403-42ba02cb166a",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--14965afa-3f0d-4fe0-b2c2-eec2aa33a878",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--707a3f32-2eaa-43bb-8d67-d8037b45eab8",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--85760c62-3fb3-426c-8432-a7a1b7d7d43c",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--14965afa-3f0d-4fe0-b2c2-eec2aa33a878",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4NDM5MDQzOTkwOjY4MzA="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--41bf747e-31cb-4537-b115-4e3d8e176e65",
+        "pid": 6840,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/product_name /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/sys/class/dmi/id/product_name",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.374661170Z",
+        "image_ref": "file--707a3f32-2eaa-43bb-8d67-d8037b45eab8",
+        "parent_ref": "process--85760c62-3fb3-426c-8432-a7a1b7d7d43c",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--10e21c53-4632-4930-b488-9f4307719ba9",
+        "created": "2024-08-23T11:38:57.016729Z",
+        "modified": "2024-08-23T11:38:57.016729Z",
+        "first_observed": "2024-08-23T11:38:57.016729Z",
+        "last_observed": "2024-08-23T11:38:57.016729Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--41bf747e-31cb-4537-b115-4e3d8e176e65",
+          "process--85760c62-3fb3-426c-8432-a7a1b7d7d43c",
+          "file--14965afa-3f0d-4fe0-b2c2-eec2aa33a878",
+          "file--707a3f32-2eaa-43bb-8d67-d8037b45eab8"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--dfd662c2-e7a0-426a-8d43-dab7e1d7ba2a",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--0a0748fc-11a5-48f9-acf7-b217176edc26",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--d81175fd-d8b8-47de-b13a-f011dc0fda91",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--b821d918-a756-43c6-9b7e-f6200e364691",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--3a5d01ee-5815-469b-b245-a82c20bef1ff",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--d81175fd-d8b8-47de-b13a-f011dc0fda91",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4NDM5MDQzOTkwOjY4MzA="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--24cad040-f8b8-4828-8c4b-6d11d5ab3395",
+        "pid": 6841,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/sys/class/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.378926211Z",
+        "image_ref": "file--b821d918-a756-43c6-9b7e-f6200e364691",
+        "parent_ref": "process--3a5d01ee-5815-469b-b245-a82c20bef1ff",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--786f44a7-bb41-4d23-a121-549ccc0a7ba5",
+        "created": "2024-08-23T11:38:57.016776Z",
+        "modified": "2024-08-23T11:38:57.016776Z",
+        "first_observed": "2024-08-23T11:38:57.016776Z",
+        "last_observed": "2024-08-23T11:38:57.016776Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--24cad040-f8b8-4828-8c4b-6d11d5ab3395",
+          "process--3a5d01ee-5815-469b-b245-a82c20bef1ff",
+          "file--d81175fd-d8b8-47de-b13a-f011dc0fda91",
+          "file--b821d918-a756-43c6-9b7e-f6200e364691"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--c183b101-4ead-4770-bc99-a518824b3fc3",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--e850198b-fbfd-4ad8-b994-97af15f13482",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--95b2d53f-aa6e-4bdc-8e3d-5e1414098953",
+        "name": "mount-product-files.sh"
+      },
+      {
+        "type": "file",
+        "id": "file--13c6a83f-a5b8-4fbe-8b39-0c2a918acf90",
+        "name": "mount"
+      },
+      {
+        "type": "process",
+        "id": "process--bf0ec2a3-2ae9-4f9c-b681-46102b2efc72",
+        "pid": 6837,
+        "command_line": "/kind/bin/mount-product-files.sh /kind/bin/mount-product-files.sh",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.317529971Z",
+        "image_ref": "file--95b2d53f-aa6e-4bdc-8e3d-5e1414098953",
+        "extensions": {
+          "flags": "execve clone",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MjM4NDM5MDQzOTkwOjY4MzA="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--ddc47182-e1cb-474f-a393-85ece82771f5",
+        "pid": 6842,
+        "command_line": "/usr/bin/mount -o ro,bind /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/product_uuid /run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs/sys/devices/virtual/dmi/id/product_uuid",
+        "cwd": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5/rootfs",
+        "created_time": "2024-08-22T11:12:19.382392652Z",
+        "image_ref": "file--13c6a83f-a5b8-4fbe-8b39-0c2a918acf90",
+        "parent_ref": "process--bf0ec2a3-2ae9-4f9c-b681-46102b2efc72",
+        "extensions": {
+          "flags": "execve clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--f3f3d62c-a239-43b9-b898-e17d8d7006b0",
+        "created": "2024-08-23T11:38:57.016833Z",
+        "modified": "2024-08-23T11:38:57.016833Z",
+        "first_observed": "2024-08-23T11:38:57.016833Z",
+        "last_observed": "2024-08-23T11:38:57.016833Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--ddc47182-e1cb-474f-a393-85ece82771f5",
+          "process--bf0ec2a3-2ae9-4f9c-b681-46102b2efc72",
+          "file--95b2d53f-aa6e-4bdc-8e3d-5e1414098953",
+          "file--13c6a83f-a5b8-4fbe-8b39-0c2a918acf90"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--3446ebda-dd19-401a-95e6-411ad58ef624",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--4fbf89c5-f43d-478e-ba49-0d4faf050a60",
+    "spec_version": "2.1",
+    "objects": []
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--24a15ae4-8f6f-4678-9318-00358226f8af",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--612b348d-0f0b-4e36-9162-03b0743533c4",
+        "name": "systemd"
+      },
+      {
+        "type": "file",
+        "id": "file--a8a9e437-6d21-4b33-8b54-40e5da970f7e",
+        "name": "local-path-provisioner"
+      },
+      {
+        "type": "process",
+        "id": "process--51617e86-ef3a-4203-933c-b887052e59fa",
+        "pid": 2053,
+        "command_line": "/usr/lib/systemd/systemd None",
+        "cwd": "/",
+        "created_time": "2024-08-22T11:11:57.368339960Z",
+        "image_ref": "file--612b348d-0f0b-4e36-9162-03b0743533c4",
+        "extensions": {
+          "flags": "execve",
+          "parent_exec_id": "aG9uZXljbHVzdGVyLWNvbnRyb2wtcGxhbmU6MTg2NTUwMDAwMDAwOjE="
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--51a21aaf-4b48-465e-948b-a26aaa7f9c10",
+        "pid": 6830,
+        "command_line": "/usr/local/bin/local-path-provisioner --debug start --helper-image docker.io/kindest/local-path-helper:v20230510-486859a6 --config /etc/config/config.json",
+        "cwd": "/",
+        "created_time": "2024-08-22T11:12:19.404358587Z",
+        "image_ref": "file--a8a9e437-6d21-4b33-8b54-40e5da970f7e",
+        "parent_ref": "process--51617e86-ef3a-4203-933c-b887052e59fa",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--39d72c52-4c99-4a5c-8afc-d3883f78c355",
+        "created": "2024-08-23T11:38:57.016937Z",
+        "modified": "2024-08-23T11:38:57.016937Z",
+        "first_observed": "2024-08-23T11:38:57.016937Z",
+        "last_observed": "2024-08-23T11:38:57.016937Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--51a21aaf-4b48-465e-948b-a26aaa7f9c10",
+          "process--51617e86-ef3a-4203-933c-b887052e59fa",
+          "file--612b348d-0f0b-4e36-9162-03b0743533c4",
+          "file--a8a9e437-6d21-4b33-8b54-40e5da970f7e"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "bundle",
+    "id": "bundle--6fca8fe6-7b0a-44d0-8ce6-bac676347b9c",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "file",
+        "id": "file--b1386313-364b-4732-afae-93113a392ff7",
+        "name": "systemd"
+      },
+      {
+        "type": "file",
+        "id": "file--0e00bc3f-3ea6-4924-a2fd-431ffe990ea7",
+        "name": "local-path-provisioner"
+      },
+      {
+        "type": "process",
+        "id": "process--0a89eaca-87f3-4189-ad55-58ddb38d8a1b",
+        "pid": 2053,
+        "command_line": "/usr/lib/systemd/systemd None",
+        "cwd": "/",
+        "created_time": "2024-08-22T11:11:57.368339960Z",
+        "image_ref": "file--b1386313-364b-4732-afae-93113a392ff7",
+        "extensions": {
+          "flags": "execve"
+        }
+      },
+      {
+        "type": "process",
+        "id": "process--cb1150c7-beff-41e1-a080-2569ce45d6ea",
+        "pid": 6830,
+        "command_line": "/usr/local/bin/local-path-provisioner --debug start --helper-image docker.io/kindest/local-path-helper:v20230510-486859a6 --config /etc/config/config.json",
+        "cwd": "/",
+        "created_time": "2024-08-22T11:12:19.404358587Z",
+        "image_ref": "file--0e00bc3f-3ea6-4924-a2fd-431ffe990ea7",
+        "parent_ref": "process--0a89eaca-87f3-4189-ad55-58ddb38d8a1b",
+        "extensions": {
+          "flags": "execve rootcwd clone",
+          "docker": "525e06916d50a8fa89ba220bcba4cb7",
+          "container_id": "containerd://525e06916d50a8fa89ba220bcba4cb7b1fb8bccdcb642cb7048cf4c6e14a04e5",
+          "pod_name": "local-path-provisioner-988d74bc-gffx4",
+          "namespace": "local-path-storage"
+        }
+      },
+      {
+        "type": "observed-data",
+        "id": "observed-data--5d63769b-7d05-4b2a-a7dd-798f7262af95",
+        "created": "2024-08-23T11:38:57.016987Z",
+        "modified": "2024-08-23T11:38:57.016987Z",
+        "first_observed": "2024-08-23T11:38:57.016987Z",
+        "last_observed": "2024-08-23T11:38:57.016987Z",
+        "number_observed": 1,
+        "object_refs": [
+          "process--cb1150c7-beff-41e1-a080-2569ce45d6ea",
+          "process--0a89eaca-87f3-4189-ad55-58ddb38d8a1b",
+          "file--b1386313-364b-4732-afae-93113a392ff7",
+          "file--0e00bc3f-3ea6-4924-a2fd-431ffe990ea7"
+        ],
+        "extensions": {
+          "node_info": {
+            "node_name": null
+          }
+        }
+      }
+    ]
+  }
+]

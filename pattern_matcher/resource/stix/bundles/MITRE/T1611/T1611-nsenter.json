@@ -1,0 +1,60 @@
+{
+    "type": "bundle",
+    "id": "bundle--MITRE1611",
+    "spec_version": "2.1",
+    "objects": [
+      {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--44273e30-a696-4157-ade8-86a7071d9a27",
+        "created_by_ref": "identity--00000000-0000-4000-8000-000000000001",
+        "created": "2023-10-26T18:38:29.092076Z",
+        "modified": "2023-10-26T18:38:29.092076Z",
+        "name": "Escape from Container Using nsenter",
+        "description": "Adversaries may execute 'nsenter' within a container to escape to the host and gain root-level access. 'nsenter' is a command-line utility that allows processes to enter existing namespaces. An adversary with escalated privileges inside a container can use this tool to access the host's namespaces, including the mount namespace, which can give them access to the host's filesystem. By entering the host's mount namespace, the adversary can then mount sensitive directories, modify system files, or execute arbitrary commands with root privileges on the host system.",
+        "external_references": [
+          {
+            "source_name": "MITRE ATT&CK",
+            "url": "https://attack.mitre.org/techniques/T1525/002/",
+            "external_id": "T1525.002"
+          }
+        ],
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+          }
+        ]
+      },
+      {
+        "type": "indicator",
+        "spec_version": "2.1",
+        "id": "indicator--09e9382e-d599-4f93-b987-83145f44e948",
+        "created_by_ref": "identity--00000000-0000-4000-8000-000000000001",
+        "created": "2023-10-26T18:38:29.092076Z",
+        "modified": "2023-10-26T18:38:29.092076Z",
+        "name": "nsenter --mount=/proc/1/ns/mnt -- /bin/bash",
+        "description": "Detects the use of 'nsenter' to escape from a container by entering the host's mount namespace and executing '/bin/bash'.",
+        "pattern": "[process:command_line MATCHES '^/usr/bin/nsenter --mount=/proc/1/ns/mnt.*']",
+        "pattern_type": "stix",
+        "valid_from": "2023-10-26T18:38:29.092075Z",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+          }
+        ]
+      },
+      {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--39a11e0c-1001-47e7-a913-86a73631b4e7",
+        "created_by_ref": "identity--00000000-0000-4000-8000-000000000001",
+        "created": "2023-10-26T18:38:29.092076Z",
+        "modified": "2023-10-26T18:38:29.092076Z",
+        "relationship_type": "indicates",
+        "source_ref": "indicator--09e9382e-d599-4f93-b987-83145f44e948",
+        "target_ref": "attack-pattern--44273e30-a696-4157-ade8-86a7071d9a27"
+      }
+    ]
+}

@@ -1,0 +1,866 @@
+9.3 STIX Patterns
+
+STIX Patterns are composed of multiple building blocks, ranging from simple key-value comparisons to more complex, context-sensitive expressions. The most fundamental building block is the Comparison Expression, which is a comparison between a single property of a SCO and a given constant using a Comparison Operator. As a simple example, one might use the following Comparison Expression (contained within an Observation Expression) to match against an IPv4 address:
+
+
+
+[ipv4-addr:value = '198.51.100.1/32']
+
+
+
+Moving up a level of complexity, the next building block of a STIX Pattern is the Observation Expression, which consists of one or more Comparison Expressions joined by Boolean Operators and bounded by square brackets. An Observation Expression refines which set of cyber observable data (i.e., as part of an Observation) will match the pattern, by selecting the set that has the SCOs specified by the Comparison Expressions. An Observation Expression consisting of a single Comparison Expression is the most basic valid STIX Pattern. Building upon the previous example, one might construct an Observation Expression to match against multiple IPv4 addresses and an IPv6 address:
+
+
+
+[ipv4-addr:value = '198.51.100.1/32' OR ipv4-addr:value = '203.0.113.33/32' OR ipv6-addr:value = '2001:0db8:dead:beef:dead:beef:dead:0001/128']
+
+
+
+Observation Expressions may be followed by one or more Qualifiers, which allow for the expression of further restrictions on the set of data matching the pattern. Continuing with the above example, one might use a Qualifier to state that the IP addresses must be observed several times in repetition:
+
+
+
+[ipv4-addr:value = '198.51.100.1/32' OR ipv4-addr:value = '203.0.113.33/32' OR ipv6-addr:value = '2001:0db8:dead:beef:dead:beef:dead:0001/128'] REPEATS 5 TIMES
+
+
+
+The final, highest level building block of STIX Patterning combines two or more Object Expressions via Observation Operators, yielding a STIX Pattern capable of matching across multiple STIX Observed Data SDOs. Building further upon our previous example, one might use an Observation Operator to specify that an observation of a particular domain name must follow the observation of the IP addresses (note the use of parentheses to encapsulate the two Observation Expressions), along with a different Qualifier to state that both the IP address and domain name must be observed within a specific time window:
+
+
+
+([ipv4-addr:value = '198.51.100.1/32' OR ipv4-addr:value = '203.0.113.33/32' OR ipv6-addr:value = '2001:0db8:dead:beef:dead:beef:dead:0001/128'] FOLLOWEDBY [domain-name:value = 'example.com']) WITHIN 600 SECONDS
+
+
+
+The diagram below depicts a truncated version of the various STIX Patterning components in the above example.
+
+
+
+
+9.4 Pattern Expressions
+
+Pattern Expressions evaluate to true or false. They comprise one or more Observation Expressions joined by Observation Operators. Pattern Expressions are evaluated against a set of specific Observations. If one or more of those Observations match the Pattern Expression, then it evaluates to true. If no Observations match, the Pattern Expression evaluates to false.
+
+
+
+Pattern Expressions MUST be encoded as Unicode strings.
+
+
+
+Whitespace (i.e., Unicode code points where WSpace=Y) in the pattern string is used to delimit parts of the pattern, including keywords, constants, and field objects. Whitespace characters between operators, including line feeds and carriage returns, MUST be allowed. Multiple whitespace characters in a row MUST be treated as a single whitespace character.
+
+
+
+An invalid pattern resulting from parsing error or invalid constants (e.g., an invalid hex or binary constant) MUST NOT match any Observations.
+9.5 Observation Expressions
+
+Observation Expressions comprise one or more Comparison Expressions, joined via Boolean Operators.
+
+
+
+Observation Expressions MUST be delimited by left square bracket ('[' U+005b) and right square bracket (']' U+005d). One or more Observation Expression Qualifiers MAY be provided after the closing square bracket or closing parenthesis of an Observation Expression. Observation Expressions MAY be joined by Observation Operators.
+
+
+
+Individual Observation Expressions (e.g., [a = b]) match against a single Observation, i.e., a single STIX Observed Data instance. In cases where matching against multiple Observations is required, two or more Observation Expressions may be combined via Observation Operators, indicating that the pattern MUST be evaluated against two or more distinct Observations; however, in the case of OR, if the first Observation Expression evaluates to true, then evaluation MUST terminate and return true.
+
+
+
+When matching an Observation against an Observation Expression, all Comparison Expressions contained within the Observation Expression MUST start matching against the same SCO in the Observation. That is, when resolving object paths of each Comparison Expression, the <object-type>:<property_name> MUST start from the same SCO.  Different SCO's may ultimately be used in matching, but they MUST be referenced from the same, single SCO.
+
+
+
+For example, the following observed data does not match this example observation clause because although these IP addresses are both part of the same observed-data object, there is not a single network-traffic SCO that references each IP address, and therefore does not satisfy the condition in the preceding paragraph:
+
+[ network-traffic:src_ref.value = '203.0.113.10' AND network-traffic:dst_ref.value = '198.51.100.58' ]
+
+
+
+{
+
+  "type": "observed-data",
+
+  "id": "observed-data--0960319a-3cab-4258-a143-4dbb25525bb1",
+
+  "first_observed": "2019-10-20T00:12:01.000000Z",
+
+  "last_observed": "2019-10-20T00:51:02.000000Z",
+
+  "number_observed": 1,
+
+  "objects": {
+
+    "0": {
+
+        "type": "network-traffic",
+
+        "src_ref": "1"
+
+    },
+
+    "1": {
+
+        "type": "ipv4-addr",
+
+        "value": "203.0.113.10"
+
+    },
+
+    "2": {
+
+        "type": "network-traffic",
+
+        "dst_ref": "3"
+
+    },
+
+    "3": {
+
+        "type": "ipv4-addr",
+
+        "value": "198.51.100.58"
+
+    }
+
+  }
+
+}
+
+
+
+
+
+An Observation Expression MAY contain Comparison Expressions with Object Paths that start with different object types, but such Comparison Expressions MUST be joined by OR. All operands of AND in an Observation Expression MUST be satisfiable with the same object.
+
+
+
+For example, consider the following Pattern Expression:
+
+[(type-a:property-j = 'W' AND type-a:property-k = 'X') OR (type-b:property-m = 'Y' AND type-b:property-n = 'Z')]
+
+
+
+This expression can match an Observable with an object of either type-a or type-b, but both Comparison Expressions for that specific type must evaluate to true for the same object. Comparison Expressions that are intended to match a single object type can be joined by either AND or OR. For example:
+
+[type-a:property-j = 'W' AND type-a:property-k = 'X' OR type-a:property-l = 'Z']
+
+
+
+As AND has higher precedence than OR, the preceding example requires an Observation to have either both property-j = 'W' AND property-k = 'X' or just property-l = 'Z'.
+
+
+
+Observation Expressions, along with their Observation Operators and optional Qualifiers, MAY be surrounded with parentheses to delineate which Observation Expressions the Qualifiers apply to. For example:
+
+([ a ] AND [ b ] REPEATS 5 TIMES) WITHIN 5 MINUTES
+
+
+
+The preceding example results in one a and 5 b’s that all match in a 5-minute period. As another example:
+
+([ a ] AND [ b ]) REPEATS 5 TIMES WITHIN 5 MINUTES
+
+
+
+The preceding example results in 5 a’s and 5 b’s (10 Observations) that all match in a 5-minute period.
+9.5.1 Observation Expression Qualifiers
+
+Each Observation Expression MAY have additional temporal or repetition restrictions using the respective WITHIN, START/STOP, and REPEATS keywords. An Observation Expression MUST NOT have more than one Qualifier of a particular type.
+
+
+
+Qualifiers
+
+
+Description
+
+a REPEATS x TIMES
+
+
+a MUST be an Observation Expression or a preceding Qualifier. a MUST match at least x times, where each match is a different Observation. x MUST be a positive integer.
+
+
+
+This is purely a shorthand way of writing:
+
+ "a" followed by "AND a", x-1 times.
+
+
+
+Example:
+
+[ b ] FOLLOWEDBY [ c ] REPEATS 5 TIMES
+
+
+
+In this example, the REPEATS applies to c, and it does not apply to b. The results will be b plus 5 c's where all 5 c's were observed after the b. Note that there is only a single Qualifier in this example; more complex patterns may use more than one.
+
+a WITHIN x SECONDS
+
+
+a MUST be an Observation Expression or a preceding Qualifier. All Observations matched by a MUST occur, or have been observed, within the specified time window. x MUST be a positive floating-point or integer value.
+
+
+
+If there is a set of two or more Observations matched by a, the most recent Observation timestamp contained within that set MUST NOT be equal to or later than the delta of the earliest Observation timestamp within the set plus the specified time window.
+
+
+
+Example:
+
+([file:hashes.'SHA-256' = '13987239847...'] AND [win-registry-key:key = 'hkey']) WITHIN 120 SECONDS
+
+
+
+The above Pattern Expression looks for a file hash and a registry key that were observed within 120 seconds of each other. The parentheses are needed to apply the WITHIN Qualifier to both Observation Expressions.
+
+a START x STOP y
+
+
+
+
+a MUST be an Observation Expression or a preceding Qualifier. All Observations that match a MUST have an observation time >= x and < y.
+
+
+
+x and y MUST be of type timestamp.
+
+
+
+In the event that the Pattern Expression is being used inside a STIX Indicator pattern property (see section 4.7) x SHOULD be greater than or equal to the value contained in the valid_from Indicator property, and y SHOULD be less than or equal to the value contained in the valid_until Indicator property.
+
+
+9.5.2 Observation Operators
+
+Two or more Observation Expressions MAY be combined using an Observation Operator in order to further constrain the set of Observations that match against the Pattern Expression.
+
+
+
+Observation Operators
+
+
+Description
+
+
+Associativity
+
+[ a ] AND [ b ]
+
+
+a and b MUST both be Observation Expressions and MUST both evaluate to true on different Observations.
+
+
+Left to right
+
+[ a ] OR [ b ]
+
+
+a and b MUST both be Observation Expressions and one of a or b MUST evaluate to true on different Observations.
+
+
+Left to right
+
+[ a ] FOLLOWEDBY [ b ]
+
+
+a and b MUST both be Observation Expressions. Both a and b MUST both evaluate to true, where the observation timestamp associated with b is greater than or equal to the observation timestamp associated with a and MUST evaluate to true on different Observations.
+
+
+Left to right
+
+
+
+For example, consider the following Pattern Expression:
+
+[ a = 'b' ] FOLLOWEDBY [ c = 'd' ] REPEATS 5 TIMES
+
+The preceding expression says to match an Observation with a equal to 'b' that precedes 5 occurrences of Observations that have c equal to ‘d’, for a total of 6 Observations matched. This interpretation is due to qualifiers not being greedy and is equivalent to [ a = 'b' ] FOLLOWEDBY ( [ c = 'd' ] REPEATS 5 TIMES).
+
+
+
+Alternatively, using parentheses to group the initial portion, we get the following example:
+
+ ([ a = 'b' ] FOLLOWEDBY [ c = 'd' ]) REPEATS 5 TIMES
+
+The preceding expression will match 5 pairs of Observations where a equals 'b' followed by an Observation where c is equal to 'd', for a total of 10 Observations matched.
+9.5.3 Operator Precedence
+
+Operator associativity and precedence may be overridden by the use of parentheses. Unless otherwise specified, operator associativity (including for parentheses) is left-to-right. Precedence in the below table is from highest to lowest.
+
+
+
+Operators
+
+
+Associativity
+
+
+Valid Scope
+
+()
+
+
+left to right
+
+
+Observation Expression or Pattern Expression, Observation Expression and Qualifier
+
+AND
+
+
+left to right
+
+
+Observation Expression, Pattern Expression
+
+OR
+
+
+left to right
+
+
+Observation Expression, Pattern Expression
+
+FOLLOWEDBY (Observation Operator)
+
+
+left to right
+
+
+Pattern Expression
+
+
+9.6 Comparison Expressions
+
+Comparison Expressions are the most basic components of STIX Patterning, comprising an Object Path and a constant joined by a Comparison Operator. Each Comparison Expression is a singleton, and so they are evaluated from left to right.
+
+
+
+A Boolean Operator joins two Comparison Expressions together. In the following table, a or b is either a Comparison Expression or a composite expression (which may be composed recursively) consisting of two or more Comparison Expressions joined with Boolean Operators and enclosed by parentheses.
+
+
+
+Boolean Operator
+
+
+Description
+
+
+Associativity
+
+a AND b
+
+
+a and b MUST both be Comparison Expressions or a composite expression (which may be composed recursively) consisting of two or more Comparison Expressions joined with Boolean Operators and enclosed by parentheses.
+
+a and b MUST both evaluate to true on the same Observation.
+
+
+Left to right
+
+a OR b
+
+
+a and b MUST both be Comparison Expressions or a composite expression (which may be composed recursively) consisting of two or more Comparison Expressions joined with Boolean Operators and enclosed by parentheses.
+
+Either a or b MUST evaluate to true.
+
+
+Left to right
+
+
+
+Comparison Expressions may include one or more Object Path(s) not obtainable within a given Observation, either because the Object Path(s) are not present within the Observation or because the evaluating entity does not have access to the data necessary in order to evaluate the specified Object Path(s). When evaluating a Comparison Expression against one or more Object Path(s) that are not present or whose data cannot be obtained, the Comparison Expression MUST evaluate to FALSE, regardless of the operators included in the expression.
+9.6.1 Comparison Operators
+
+The table below describes the available Comparison Operators for use in Comparison Expressions; in the table, a MUST be an Object Path and b MUST be a constant. If the arguments to the Comparison Operators are of incompatible types (e.g., the Object Path is an integer and the constant is a string), the results are false; the sole exception is the != operator in which case the result is true. Some STIX Patterning constants and STIX data types may be comparable in a Comparison Expression. For example, the hex and binary types both represent binary data, and their representative binary data is that which must be compared for equality. See section 2 for type compatibility between STIX Patterning and STIX types.
+
+
+
+A Comparison Operator MAY be preceded by the modifier NOT, in which case the resultant Comparison Expression is logically negated.
+
+
+
+Comparison Operator
+
+
+Description
+
+
+Example
+
+a = b
+
+
+a and b MUST be equal (transitive), where a MUST be an Object Path and b MUST be a constant of the same data type as the object property specified by a.
+
+
+file:name = 'foo.dll'
+
+a != b
+
+
+a and b MUST NOT be equal (transitive), where a MUST be an Object Path and b MUST be a constant of the same data type as the Object property specified by a.
+
+
+file:size != 4112
+
+a > b
+
+
+a is numerically or lexically greater than b, where a MUST be an Object Path and b MUST be a constant of the same data type as the Object property specified by a.
+
+
+file:size > 256
+
+a < b
+
+
+a is numerically or lexically less than b, where a MUST be an Object Path and b MUST be a constant of the same data type as the Object property specified by a.
+
+
+file:size < 1024
+
+a <= b
+
+
+a is numerically or lexically less than or equal to b, where a MUST be an Object Path and b MUST be a constant of the same data type as the Object property specified by a.
+
+
+file:size <= 25145
+
+a >= b
+
+
+a is numerically or lexically greater than or equal to b, where a MUST be an Object Path and b MUST be a constant of the same data type as the Object property specified by a.
+
+
+file:size >= 33312
+
+a IN (x,y,...)
+
+
+a MUST be an Object Path and MUST evaluate to one of the values enumerated in the set of x,y,... (transitive). The set values in b MUST be constants of homogeneous data type and MUST be valid data types for the Object Property specified by a. The return value is true if a is equal to one of the values in the list. If a is not equal to any of the items in the list, then the Comparison Expression evaluates to false.
+
+
+process:name IN ('proccy', 'proximus', 'badproc')
+
+
+
+a LIKE b
+
+
+a MUST be an Object Path and MUST match the pattern specified in b where any '%' is 0 or more characters and ‘_' is any one character.
+
+
+
+This operator is based upon the SQL LIKE clause and makes use of the same wildcards.
+
+
+
+The string constant b MUST be NFC normalized [Davis] prior to evaluation.
+
+
+directory:path LIKE 'C:\\Windows\\%\\foo'
+
+a MATCHES b
+
+
+a MUST be an Object Path and MUST be matched by the pattern specified in b, where b is a string constant containing a PCRE compliant regular expression. a MUST be NFC normalized [Davis] before comparison if the property is of string type.
+
+
+
+Regular expressions MUST be conformant to the syntax defined by the Perl-compatible Regular Expression (PCRE) library [PCRE]. The search function MUST be used. The DOTALL option MUST be specified. The standard beginning and end anchors may be used in the pattern to obtain match behavior.
+
+
+
+In the case that the property is binary (e.g., the property name ends in _bin or _hex), then the UNICODE flag MUST NOT be specified.
+
+
+directory:path MATCHES '^C:\\\\Windows\\w+$'
+
+Set Operator
+
+
+Description
+
+
+Example
+
+a ISSUBSET b
+
+
+When a is a set that is wholly contained by the set b, the Comparison Expression evaluates to true. a MUST be an Object Path referring to the value property of an Object of type ipv4-addr or ipv6-addr. b MUST be a valid string representation of the corresponding Object type (as defined in section 6.
+
+
+
+For example, if ipv4-addr:value was 198.51.100.0/27, ISSUBSET '198.51.100.0/24' would evaluate to true.
+
+
+
+In the case that both a and b evaluate to an identical single IP address or an identical IP subnet, the Comparison Expression evaluates to true.
+
+
+ipv4-addr:value ISSUBSET '198.51.100.0/24'
+
+a ISSUPERSET b
+
+
+When a is a set that wholly contains the set specified by b, the Comparison Expression evaluates to true. a MUST be an Object Path referring either an ipv4-addr or ipv6-addr Object. b MUST be a valid string representation of the corresponding Object type (as defined in section 6).
+
+
+
+For example, if ipv4-addr:value was 198.51.100.0/24, ISSUPERSET '198.51.100.0/27' would evaluate to true.
+
+
+
+In the case that both a and b evaluate to an identical single IP address or an identical IP subnet, the Comparison Expression evaluates to true.
+
+
+ipv4-addr:value ISSUPERSET '198.51.100.0/24'
+
+EXISTS a
+
+
+a MUST be an Object Path which specifies a single property that MUST exist on the Object specified by the Observation Expression in order for the Comparison Expression to evaluate to true.
+
+
+
+For example, EXISTS windows-registry-key:values would evaluate to true on a registry key that contains a 'values' property (regardless of its contents).
+
+
+EXISTS windows-registry-key:values
+
+
+9.6.2 String Comparison
+
+For simple string operators, i.e., "=", "!=", "<", ">", "<=" and ">=", as collation languages and methods are unspecifiable, a simple code point (binary) comparison MUST be used. If one string is longer than the other, but otherwise equal, the longer string is greater than, but not equal to, the shorter string. Unicode normalization MUST NOT be performed on the string. This means that combining marks [Davis] are sorted by their code point, not the NFC normalized value. E.g. ‘o' U+006f < ‘oz' U+006f U+007a < ‘ò' U+006f U+0300 < ‘z' U+007a < ‘ò' U+00f2. Although Unicode recommends normalizing strings for comparisons, the use of combining marks may be significant, and normalizing by default would remove this information.
+
+
+
+NFC normalization is, however, required for other Comparison Operators, e.g., LIKE and MATCHES.
+9.6.3 Binary Type Comparison
+
+When the value of two binary object properties are compared, they are compared as unsigned octets. That is, 00 is less than ff. If one value is longer than the other, but they are otherwise equal, the longer value is considered greater than, but not equal to, the shorter value.
+9.6.4 Native Format Comparison
+
+The SCO's value MUST be in its native format when doing the comparison. For example, Cyber-observable Object properties that use the binary type (defined in section 2.1) must have their value decoded into its constituent bytes prior to comparison. This also means that Object Properties which use the hex type must be decoded into raw octets prior to being evaluated.
+
+
+
+In cases where a binary SCO property (i.e., one ending with _bin or _hex) is evaluated against a string constant, the string constant MUST be converted into a binary constant when all of the constituent string code points are less than U+0100. If this conversion is not possible, the comparison MUST evaluate to false, unless the comparison operator is !=, in which case it MUST evaluate to true.
+
+
+
+
+
+For example, given the following object, where the payload_bin property is of binary type :
+
+{
+
+  "0":{
+
+    "type": "artifact",
+
+    "mime_type": "application/octet-stream",
+
+    "payload_bin": "dGhpcyBpcyBhIHRlc3Q="
+
+    }
+
+}
+
+
+
+The pattern "artifact:payload_bin = 'dGhpcyBpcyBhIHRlc3Q='" would evaluate to false, while the following patterns would all evaluate to true:
+
+
+
+"artifact:payload_bin = 'this is a test'", "artifact:payload_bin = b'dGhpcyBpcyBhIHRlc3Q='",
+
+ and "artifact:payload_bin = h'7468697320697320612074657374'".
+
+​
+9.7 Object Path Syntax
+
+Defined below is the syntax for addressing properties of SCOs within a STIX Pattern. The following notation is used throughout the definitions below:
+
+
+
+Notation
+
+
+Definition
+
+<object-type>
+
+
+The type of SCO to match against. This MUST be the value of the type field specified for a given SCO in an Observation.
+
+<property_name>
+
+
+The name of a SCO property to match against. This MUST be a valid property name as specified in the definition of the SCO type referenced by the <object-type> notation.
+
+
+
+If the <property_name> contains a hyphen-minus ('-' U+002d) or a full stop ('.' U+002e), the <property_name> MUST be enclosed in apostrophes (''' U+0027).
+
+
+
+Properties that are nested (i.e., are children of other properties in a SCO) MUST be specified using the syntax <property_name>.<property_name>, where the <property_name> preceding the ‘.' is the name of the parent property and the one following is the name of the child property.
+
+
+
+If the property name is a reference to another SCO, the referenced Object MUST be dereferenced, so that its properties function as if they are nested in the Object that it is referenced by. For example, if the src_ref property of the Network Traffic object references an IPv4 Address object, the value of this IPv4 address would be specified by network-traffic:src_ref.value.
+
+
+
+NOTE: the STIX Patterning language currently does not support specifying and/or dereferencing top-level relationships between SCOs as part of its object syntax. Therefore, it is recommended to use the deprecated embedded relationships for this purpose, if necessary.
+
+
+9.7.1 Basic Object Properties
+
+Any non-dictionary and non-list property that is directly specified on a SCO.
+
+
+
+Syntax
+
+<object-type>:<property_name>
+
+
+
+Example
+
+file:size
+
+
+9.7.2 List Object Properties
+
+Any property on a SCO that uses the list data type.
+
+
+
+​Syntax
+
+<object-type>:<property_name>[list_index].<property_name>
+
+
+
+Where the first property_name MUST be the name of an Object property of type list and list_index MUST be one of the following:
+
+●      An integer in the range of 0...N-1, where N is the length of the list. If list_index is out of range, the result of any operation is false.
+
+●      The literal '*' indicates that all of the items in the list shall be tried as a value to be evaluated with the Comparison Operator and other value. If any of these evaluations are true, then the result is true.
+
+
+
+Examples
+
+
+
+file:extensions.'windows-pebinary-ext'.sections[*].entropy
+
+
+
+network-traffic:protocols[0]
+9.7.3 Dictionary Object Properties
+
+Any property on an SCO that uses the dictionary data type.
+
+
+
+​Syntax
+
+<object-type>:<property_name>.<key_name>
+
+
+
+Where <property_name> MUST be the name of an Object property of type dictionary and <key_name> MUST be the name of key in the dictionary.
+
+
+
+Examples
+
+file:hashes.ssdeep
+
+
+
+file:extensions.'raster-image-ext'.image_height
+9.7.4 Object Reference Properties
+
+Any property on an SCO that represents an embedded relationship and uses the identifier data type, either as a singleton or as a list (i.e., list of type identifier).
+
+
+
+​Syntax
+
+<object-type>:<property_name>.<dereferenced_object_property>
+
+
+
+Where <property_name> MUST be the name of an Object property that represents an embedded relationships and is of type identifier and <dereferenced_object_property> MUST be the name of a valid property of the dereferenced Object (i.e., the Object in an Observation that is referenced via <property_name>).
+
+
+
+For example, when processing the Observed Data SDO that uses the object_refs property instead of the deprecated objects property, only those SCO's that are listed in the object_refs may be followed. This means that if the object identifier is not listed in object_refs property, then that object is considered not found, and any references to properties of that object are considered not present.
+
+
+
+For cases where <property_name> represents a list of embedded relationships and is a list of type identifier, the corresponding syntax applies:
+
+<object-type>:<property_name>[list_index].<dereferenced_object_property>
+
+Accordingly, the same semantics for list indices as defined in section 9.7.2 apply in this case.
+
+
+
+Examples
+
+email-message:from_ref.value
+
+directory:contains_refs[*].name
+
+
+9.8 Examples
+
+Note: the examples below are NOT JSON encoded. This means that some characters, like double quotes, are not escaped, though they will be when encoded in a JSON string.
+
+
+
+Matching a File with a SHA-256 hash
+
+[file:hashes.'SHA-256' = 'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f']
+
+
+
+Matching an Email Message with a particular From Email Address and Attachment File Name Using a Regular Expression
+
+[email-message:from_ref.value MATCHES '.+\\@example\\.com$' AND email-message:body_multipart[*].body_raw_ref.name MATCHES '^Final Report.+\\.exe$']
+
+
+
+Matching a File with a SHA-256 hash and a PDF MIME type
+
+[file:hashes.'SHA-256' = 'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f' AND file:mime_type = 'application/x-pdf']
+
+
+
+Matching a File with SHA-256 or a MD5 hash (e.g., for the case of two different end point tools generating either an MD5 or a SHA-256), and a different File that has a different SHA-256 hash, against two different Observations
+
+[file:hashes.'SHA-256' = 'bf07a7fbb825fc0aae7bf4a1177b2b31fcf8a3feeaf7092761e18c859ee52a9c' OR file:hashes.MD5 = 'cead3f77f6cda6ec00f57d76c9a6879f']
+
+ AND [file:hashes.'SHA-256' =
+
+'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f']
+
+
+
+Matching a File with a MD5 hash, followed by (temporally) a Registry Key object that matches a value, within 5 minutes
+
+([file:hashes.MD5 = '79054025255fb1a26e4bc422aef54eb4'] FOLLOWEDBY [windows-registry-key:key = 'HKEY_LOCAL_MACHINE\\foo\\bar']) WITHIN 300 SECONDS
+
+
+
+Matching three different, but specific Unix User Accounts
+
+[user-account:account_type = 'unix' AND user-account:user_id = '1007' AND user-account:account_login = 'Peter'] AND [user-account:account_type = 'unix' AND user-account:user_id = '1008' AND user-account:account_login = 'Paul'] AND [user-account:account_type = 'unix' AND user-account:user_id = '1009' AND user-account:account_login = 'Mary']
+
+
+
+Matching an Artifact object PCAP payload header
+
+[artifact:mime_type = 'application/vnd.tcpdump.pcap' AND artifact:payload_bin MATCHES '\\xd4\\xc3\\xb2\\xa1\\x02\\x00\\x04\\x00']
+
+​
+
+Matching a File object with a Windows file path
+
+[file:name = 'foo.dll' AND file:parent_directory_ref.path = 'C:\\Windows\\System32']
+
+​
+
+Matching on a Windows PE File with high section entropy
+
+[file:extensions.'windows-pebinary-ext'.sections[*].entropy > 7.0]
+
+
+
+Matching on a mismatch between a File object magic number and mime type
+
+[file:mime_type = 'image/bmp' AND file:magic_number_hex = h'ffd8']
+
+
+
+Matching on Network Traffic with a particular destination
+
+[network-traffic:dst_ref.type = 'ipv4-addr' AND network-traffic:dst_ref.value = '203.0.113.33/32']
+
+
+
+Matching on Malware Beaconing to a Domain Name
+
+[network-traffic:dst_ref.type = 'domain-name' AND network-traffic:dst_ref.value = 'example.com'] REPEATS 5 TIMES WITHIN 1800 SECONDS
+
+
+
+Matching on a Domain Name with IPv4 Resolution
+
+[domain-name:value = 'www.5z8.info' AND domain-name:resolves_to_refs[*].value = '198.51.100.1/32']
+
+
+
+Matching on a URL
+
+[url:value = 'http://example.com/foo' OR url:value = 'http://example.com/bar']
+
+
+
+Matching on an X509 Certificate
+
+[x509-certificate:issuer = 'CN=WEBMAIL' AND x509-certificate:serial_number = '4c:0b:1d:19:74:86:a7:66:b4:1a:bf:40:27:21:76:28']
+
+
+
+Matching on a Windows Registry Key
+
+[windows-registry-key:key = 'HKEY_CURRENT_USER\\Software\\CryptoLocker\\Files' OR windows-registry-key:key = 'HKEY_CURRENT_USER\\Software\\Microsoft\\CurrentVersion\\Run\\CryptoLocker_0388']
+
+`
+
+Matching on a File with a set of properties
+
+[(file:name = 'pdf.exe' OR file:size = 371712) AND file:created = t'2014-01-13T07:03:17Z']
+
+
+
+Matching on an Email Message with specific Sender and Subject
+
+[email-message:sender_ref.value = 'jdoe@example.com' AND email-message:subject = 'Conference Info']
+
+
+
+Matching on a Custom USB Device
+
+[x-usb-device:usbdrive.serial_number = '575833314133343231313937']
+
+
+
+Matching on Two Processes Launched with a Specific Set of Command Line Arguments Within a Certain Time Window
+
+[process:command_line MATCHES '^.+>-add GlobalSign.cer -c -s -r localMachine Root$'] FOLLOWEDBY [process:command_line MATCHES'^.+>-add GlobalSign.cer -c -s -r localMachineTrustedPublisher$'] WITHIN 300 SECONDS
+
+
+
+Matching on a Network Traffic IP that is part of a particular Subnet
+
+[network-traffic:dst_ref.value ISSUBSET '2001:0db8:dead:beef:0000:0000:0000:0000/64']
+
+
+
+Matching on several different combinations of Malware Artifacts. Note the following pattern requires that both a file and registry key exist, or that one of two processes exist.
+
+([file:name = 'foo.dll'] AND [windows-registry-key:key = 'HKEY_LOCAL_MACHINE\\foo\\bar']) OR [process:image_ref.name = 'fooproc' OR process:image_ref.name = 'procfoo']
+
+
