@@ -1,6 +1,10 @@
 # Build stage
 FROM python:3.11-slim as builder
+
 WORKDIR /build
+COPY . .
+RUN pip install poetry
+RUN poetry build
 
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
