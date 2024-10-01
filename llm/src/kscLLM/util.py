@@ -2,6 +2,9 @@ import textwrap
 import google.generativeai as genai
 
 from IPython.display import Markdown, display
+from google.generativeai.client import pathlib
+
+from kscLLM.index import ROOT_PATH
 
 
 def to_markdown(text):
@@ -29,7 +32,9 @@ def get_model():
         },
     ]
 
-    with open("resource/stix_specification_plain.txt") as file:
+    print(pathlib.Path().resolve())
+
+    with open("../resource/stix_specification_plain.txt") as file:
         lines = file.readlines()
     system_prompt = "\n".join(lines)
     model = genai.GenerativeModel(

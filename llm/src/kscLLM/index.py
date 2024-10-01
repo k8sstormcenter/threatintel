@@ -1,2 +1,3 @@
 import pathlib
-ROOT_PATH = pathlib.Path().parent.parent
+
+ROOT_PATH = pathlib.Path(__file__).parent.parent.resolve()

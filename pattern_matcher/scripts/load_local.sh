@@ -13,7 +13,8 @@ install -D /dev/null "$STIX_PATH"
 install -D /dev/null "$PREPROCESSED"
 
 # extract only value
-jq "[.[].value.payload]" < "$TETRAGON_LOG" > "$PREPROCESSED"
+# jq "[.[].value.payload]" < "$TETRAGON_LOG" > "$PREPROCESSED" # loaded from repanda ui
+jq -s "." < "$TETRAGON_LOG" > $PREPROCESSED # loaded from rpk
 
 # map tetragon log to stix
 python -m patternmatcher.parse "$PREPROCESSED" > "$STIX_PATH"
