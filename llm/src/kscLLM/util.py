@@ -34,7 +34,7 @@ def get_model():
 
     print(pathlib.Path().resolve())
 
-    with open("../resource/stix_specification_plain.txt") as file:
+    with open(ROOT_PATH / "resource/stix_specification_plain.txt") as file:
         lines = file.readlines()
     system_prompt = "\n".join(lines)
     model = genai.GenerativeModel(
