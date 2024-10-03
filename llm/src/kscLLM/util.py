@@ -1,3 +1,4 @@
+from datetime import datetime
 import textwrap
 import google.generativeai as genai
 
@@ -54,3 +55,7 @@ def get_model():
     )
 
     return model
+
+
+def get_current_time() -> str:
+    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
