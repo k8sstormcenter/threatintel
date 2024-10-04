@@ -20,5 +20,4 @@ jq -s "." < "$TETRAGON_LOG" > $PREPROCESSED # loaded from rpk
 python -m patternmatcher.parse "$PREPROCESSED" > "$STIX_PATH"
 
 # load stix into neo4j
-# python -m patternmatcher.load "$STIX_PATH"
-
+python -m patternmatcher.load "$STIX_PATH"
