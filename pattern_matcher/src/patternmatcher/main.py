@@ -45,7 +45,7 @@ class StixPatterMatcher:
         )
         await asyncio.gather(
             self._sheduled_task(self.load_indicators, 10),
-            self._sheduled_task(self.match_cached, 60),
+            self._sheduled_task(self.match_cached, 10),
             self.consume_kafka_topics(kafka_uri, kafka_topic),
         )
 

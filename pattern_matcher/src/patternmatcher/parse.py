@@ -250,8 +250,8 @@ def transform_log_to_stix(log: TetragonLog):
 
     stix_objects.append(encode_dict(dict(observed_data_dict)))
 
-
     return stix_objects
+
 
 def encode_dict(d: dict):
     for key, val in d.items():
@@ -262,7 +262,6 @@ def encode_dict(d: dict):
             d[key] = val.decode()
 
     return d
-
 
 
 def transform_tetragon_to_stix(tetragon_log):
@@ -311,7 +310,7 @@ def main(file_path: str):
         for tetragon_log in tetragon_logs:
             bundle = transform_tetragon_to_stix(tetragon_log)
             bundles.append(bundle)
-        print(json.dumps(bundles, indent=2, cls=CustomEncoder))
+        print(json.dumps(bundles, cls=CustomEncoder))
 
 
 if __name__ == "__main__":
