@@ -1,4 +1,5 @@
 STIX_MODEL_PATH=stix/examples/stix-attack-model.json
+INSERTION_FILE=pattern_matcher/resource/stix/observed/KCD-AUT/credential_steal_gke_tobias_tetragon.json
 
 all:  install-neo4j install-matcher insert-attack-models
 
@@ -23,6 +24,9 @@ insert-attack-models:
 
 insert-standard-attack-models:
 	kubectl exec -it -n redpanda deployment/matcher -- python -m patternmatcher.load ./resource/stix/bundles
+
+insert-into-signal:
+	cat $(INSERTION_FILE) | jq ".[].value.payload" -c | kubectl exec -it -n redpanda redpanda-src-0 -- /usr/bin/rpk topic produce signal
 
 destroy: destroy-matcher destroy-neo4j
 
