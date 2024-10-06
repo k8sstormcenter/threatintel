@@ -76,7 +76,7 @@ class StixPatterMatcher:
         self.cached_sdos = [
             cached_sdo
             for cached_sdo in self.cached_sdos
-            if cached_sdo["added"] > (datetime.now() - timedelta(minutes=1))
+            if cached_sdo["added"] > (datetime.now() - timedelta(minutes=2))
         ]
 
         sdos: list[dict] = [cached_sdo["sdo"] for cached_sdo in self.cached_sdos]
