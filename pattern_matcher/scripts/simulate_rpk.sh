@@ -64,7 +64,7 @@ STR1='{
     "source_type": "kubernetes_logs",
     "stream": "stderr",
     "timestamp": "2024-09-05T16:57:07.878828081Z"
-  }';
+  }'
 STR2='{
     "file": "/var/log/pods/kube-system_gke-metadata-server-frk4r_32b90713-8dd1-48bc-ad2a-d9558239b154/gke-metadata-server/0.log",
     "kubernetes": {
@@ -131,7 +131,7 @@ STR2='{
     "source_type": "kubernetes_logs",
     "stream": "stderr",
     "timestamp": "2024-09-05T16:57:07.923896481Z"
-  }';
+  }'
 STR3='{
     "file": "/var/log/pods/kube-system_gke-metadata-server-frk4r_32b90713-8dd1-48bc-ad2a-d9558239b154/gke-metadata-server/0.log",
     "kubernetes": {
@@ -198,7 +198,7 @@ STR3='{
     "source_type": "kubernetes_logs",
     "stream": "stderr",
     "timestamp": "2024-09-05T16:57:07.923943879Z"
-  }';
+  }'
 STR4='{
     "file": "/var/log/pods/kube-system_gke-metadata-server-frk4r_32b90713-8dd1-48bc-ad2a-d9558239b154/gke-metadata-server/0.log",
     "kubernetes": {
@@ -265,7 +265,7 @@ STR4='{
     "source_type": "kubernetes_logs",
     "stream": "stderr",
     "timestamp": "2024-09-05T16:57:07.924210030Z"
-  }';
+  }'
 STR5='{
     "file": "/var/log/pods/ingress-nginx_ingress-nginx-controller-cf668668c-zjq26_7d2b6ad9-7098-42a0-9231-bfeb2811f1c1/controller/0.log",
     "kubernetes": {
@@ -332,11 +332,9 @@ STR5='{
     "source_type": "kubernetes_logs",
     "stream": "stdout",
     "timestamp": "2024-09-05T16:57:07.932937874Z"
-  }';
+  }'
 
-
-echo $STR1 | rpk topic produce signal;
-echo $STR2 | rpk topic produce signal;
-echo $STR3 | rpk topic produce signal;
-echo $STR4 | rpk topic produce signal;
-echo $STR5 | rpk topic produce signal;
+echo $STR1 | rpk topic produce signal
+echo $STR2 | rpk topic produce signal
+echo $STR3 | rpk topic produce signal
+echo $STR4 | rpk topic produce signal

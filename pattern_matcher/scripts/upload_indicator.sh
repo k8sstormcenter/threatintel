@@ -5,5 +5,5 @@
 
 STIX_MODEL_PATH=$1
 POD_NAME=$(kubectl get pods -n redpanda -l app=matcher -o jsonpath='{.items[0].metadata.name}')
-kubectl cp "${STIX_MODEL_PATH}" rsh gedpanda/"${POD_NAME}":/tmp
+kubectl cp "${STIX_MODEL_PATH}" redpanda/"${POD_NAME}":/tmp
 kubectl exec -it -n redpanda "${POD_NAME}" -- python -m patternmatcher.load "/tmp/$(basename ${STIX_MODEL_PATH})"
