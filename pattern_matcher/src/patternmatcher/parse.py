@@ -310,7 +310,7 @@ def main(file_path: str):
         for tetragon_log in tetragon_logs:
             bundle = transform_tetragon_to_stix(tetragon_log)
             bundles.append(bundle)
-        print(json.dumps(bundles, cls=CustomEncoder))
+        print(json.dumps(bundles, indent=2, cls=CustomEncoder))
 
 
 if __name__ == "__main__":
