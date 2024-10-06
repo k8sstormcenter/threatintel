@@ -73,7 +73,11 @@ class StixPatterMatcher:
         """Match cached STIX domain objects in order to allow queries over multiple bundles."""
 
         log.info(f"Currently {len(self.cached_sdos)} sdos, cleaning outdated ones...")
-        # self.cached_sdos = [cached_sdo for cached_sdo in self.cached_sdos if cached_sdo["added"] > (datetime.now() - timedelta(minutes=2))]
+        self.cached_sdos = [
+            cached_sdo
+            for cached_sdo in self.cached_sdos
+            if cached_sdo["added"] > (datetime.now() - timedelta(minutes=1))
+        ]
 
         sdos: list[dict] = [cached_sdo["sdo"] for cached_sdo in self.cached_sdos]
         log.info(f"Matching {len(sdos)} cached sdos.")
