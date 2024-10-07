@@ -19,7 +19,8 @@ from patternmatcher.match import matches
 from patternmatcher.load import load_to_neo4j
 from stix2matcher.matcher import match
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.WARNING)
+log.getLogger("patternmatcher").setLevel(log.INFO)
 
 
 class CachedSdo(TypedDict):
