@@ -9,4 +9,4 @@ kubectl cp "${STIX_MODEL_PATH}" redpanda/"${POD_NAME}":/tmp
 kubectl exec -it -n redpanda "${POD_NAME}" -- python -m patternmatcher.load "/tmp/$(basename ${STIX_MODEL_PATH})"
 
 # Query for matches in Neo4j
-# MATCH p=(:Indicator)-[:MATCHED]->(:ObservedData)-[:OBSERVED]->() RETURN p
+# MATCH (i:Indicator) OPTIONAL MATCH p=(i)-[:MATCHED]->(:ObservedData)-[:OBSERVED]->() RETURN i, p
