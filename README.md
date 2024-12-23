@@ -1,4 +1,7 @@
-# K8sStormCenter ThreatIntel
+# K8sStormCenter ThreatIntel (DEPRECATED)
+
+>[!IMPORTANT]
+> This repo is no longer actively maintained, the logic has been moved into honeycluster. You ll find it in the `lightening-rod` subfolder there.
 
 Welcome to the K8sStormCenter ThreatIntel repository. This repository is an integral part of the K8sStormCenter project, focusing specifically on the threat intelligence aspects and offering tools and guidance needed to analyze and identify **juicy** attacks on your honeyclusters. This repository complements the [HoneyCluster](https://github.com/k8sstormcenter/honeycluster) repository, which provides the necessary tooling for deploying your own honeyclusters and baits.
 
